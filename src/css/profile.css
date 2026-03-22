@@ -1,0 +1,180 @@
+.profileOutline {
+  max-width: 700px;
+  min-width: 300px;
+  width: 100%;
+  padding: 1rem;
+  flex: 1;
+}
+
+.editButtons {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.profileTop {
+  display: flex;
+  padding: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+  font-size: larger;
+}
+
+.blurb {
+  width: 100%;
+  min-height: 300px;
+  field-sizing: content;
+  flex: 1;
+  padding: 0.5rem;
+  background-color: rgb(26 32 44);
+  color: inherit;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+input {
+  background-color: rgb(26 32 44);
+  color: inherit;
+  border: 1px solid gray;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+.onlineStatus {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.onlineStatus.online {
+  background-color: green;
+}
+
+.onlineStatus.offline {
+  background-color: red;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.EditAvatarModalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgb(0, 0, 0, 0.4);
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+@keyframes dropIn {
+  0% {
+    transform: translateY(-20%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.EditAvatarModal {
+  animation: dropIn 0.5s ease-in-out;
+  width: fit-content;
+  height: fit-content;
+  padding: 2rem;
+  border-radius: 20px;
+  background-color: rgb(17 24 39);
+  box-shadow: 0 0 10px 1px;
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  gap: 1rem;
+  overflow-y: auto;
+}
+
+.EditAvatarModal button,
+.EditAvatarModal select,
+.editButtons button {
+  cursor: pointer;
+  background-color: #4f46e5;
+  padding: 0.5rem 2rem;
+  border: 2px solid black;
+  border-radius: 5px;
+  color: inherit;
+  font-size: large;
+}
+
+.EditAvatarModal button:disabled,
+.editButtons button:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+.EditAvatarModal select {
+  padding-left: 0.5em;
+}
+
+.EditAvatarModal button:not(:disabled):hover,
+.EditAvatarModal button:not(:disabled):focus,
+.editButtons button:not(:disabled):hover,
+.editButtons button:not(:disabled):focus,
+.EditAvatarModal select:hover,
+.EditAvatarModal select:focus {
+  background-color: #3b34c3;
+}
+
+.avatarContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 650px;
+  gap: 18px;
+}
+
+.choseAvatar {
+  box-sizing: content-box;
+  max-width: 150px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.1s linear;
+}
+
+.choseAvatar:hover,
+.choseAvatar:focus {
+  transform: scale(1.025);
+}
+
+.modalButtons {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  justify-content: end;
+}
+
+.changeAvatar {
+  height: 100px;
+  width: 100px;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: rgb(26 32 44);
+  overflow: hidden;
+}
+
+.profileTopLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}

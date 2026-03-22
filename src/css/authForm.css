@@ -1,0 +1,80 @@
+.authForm {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(26 32 44);
+  padding: 2rem;
+  gap: 1rem;
+  border-radius: 10px;
+  box-shadow: black 0 0 10px 1px;
+  font-size: large;
+}
+
+.authForm legend {
+  font-size: x-large;
+  min-width: 200px;
+}
+
+.authForm input {
+  padding: 2px 4px;
+  font-size: large;
+  border-radius: 3px;
+  border: 2px solid rgb(255, 255, 255, 0.3);
+  background-color: rgb(255, 255, 255, 0.2);
+  color: #e2e8f0;
+}
+
+.authForm label {
+  display: flex;
+  flex-direction: column;
+  cursor: text;
+}
+
+.authForm button.submit {
+  width: fit-content;
+  height: fit-content;
+  align-self: center;
+  padding: 0.5rem 2rem;
+  border-radius: 5px;
+  font-size: large;
+  box-shadow: black 0 0 10px 2px;
+  background-color: rgb(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+}
+
+.authForm button.submit:hover,
+.authForm button.submit:focus {
+  background-color: rgb(255, 255, 255, 0.4);
+}
+
+.authForm button.submit:active {
+  box-shadow: none;
+  transform: translate(-0.5%, 2%);
+}
+
+.authBtns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.authBtns a {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  font-size: 1rem;
+  color: inherit;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.authBtns a:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.authBtns a.active {
+  background: rgba(255, 255, 255, 0.45);
+  font-weight: 600;
+  cursor: default;
+  transform: scale(1.2);
+}
