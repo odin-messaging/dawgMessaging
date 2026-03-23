@@ -32,8 +32,8 @@ const routes = [
     element: <ProtectedRoute />,
     children: [
       { path: "/", element: <App /> },
+      { path: "/profile/edit", element: <EditProfile /> },
       { path: "/profile/:id", element: <Profile /> },
-      { path: "/profile/edit/:id", element: <EditProfile /> },
     ],
   },
   {

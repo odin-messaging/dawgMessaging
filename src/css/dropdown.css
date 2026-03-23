@@ -1,0 +1,27 @@
+.openMoreOptions {
+  z-index: 15;
+  background-color: rgb(26 32 44);
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: fit-content;
+  position: absolute;
+  top: 120%;
+  right: 0;
+  box-shadow: 0 0 10px 0;
+}
+
+.dropdown-link {
+  padding: 0.1rem 1rem;
+  text-decoration: none;
+  color: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.dropdown-link:hover,
+.dropdown-link:focus {
+  background-color: rgb(255, 255, 255, 0.2);
+}

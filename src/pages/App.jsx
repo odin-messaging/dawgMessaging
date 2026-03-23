@@ -2,31 +2,33 @@ import { useState, useEffect } from 'react'
 import { getMainPage } from '../fetches/get'
 import { useOnlineHeartbeat } from '../components/onlineHeartbeat'
 import '../css/globle.css'
+import '../css/dropdown.css'
 import Header from '../components/Header'
 import Logo from '../components/logo'
 import { useAuth } from '../components/AuthContext'
+import { getAllOtherUsers } from '../fetches/get'
 
 const App = () => {
   const [data, setData] = useState(null)
   const { logoutUser, user } = useAuth()
 
-  // useEffect(() => {
-  //   const load = async () => {
-  //     const fetch = await getMainPage()
-  //     setData(fetch)
-  //   }
+  useEffect(() => {
+    const load = async () => {
+      const fetch = await getAllOtherUsers()
+      setData(fetch)
+    }
 
-  //   load()
-  // }, [])
+    load()
+  }, [])
 
-  // useEffect(() => {
-  //   console.log(data)
-  // }, [data])
+  useEffect(() => {
+    console.log(data)
+  }, [data])
 
   return (
     <>
       <Header links={[
-        { title: 'Profile', href: `/profile/${user.id}`}
+        // { title: 'Profile', href: `/profile/${user.id}` }
       ]} />
 
       <div>

@@ -26,11 +26,7 @@ const Login = () => {
 
   return (
     <>
-      <Header
-        links={[
-          { title: 'Home', href: '/' }
-        ]}
-      />
+      <Header />
 
       <div className="authBtns">
         <Link to={'#'} className="active">Log In</Link>

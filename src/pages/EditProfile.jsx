@@ -7,6 +7,9 @@ import '../css/profile.css'
 import AvatarPicker from "../components/choseAvatar"
 import { createAvatar } from '@dicebear/core'
 import { lorelei, adventurer, bottts, rings } from '@dicebear/collection'
+import { updateUser } from "../fetches/patch"
+import LoadingSpinner from "../components/LoadingSpinner"
+import { useNavigate } from "react-router-dom"
 
 const EditAvatarModal = ({ setOpenAvatarPicker, onAvatarPick }) => {
   return (
@@ -18,14 +21,11 @@ const EditAvatarModal = ({ setOpenAvatarPicker, onAvatarPick }) => {
 
 const EditProfile = () => {
   const AVATAR_STYLES = { adventurer, lorelei, bottts, rings }
-  const { user } = useAuth()
+  const { user, setUser } = useAuth()
   const [loading, setLoading] = useState(false)
   const [editedUser, setEditedUser] = useState(user)
   const [openAvatarPicker, setOpenAvatarPicker] = useState(false)
-
-  useEffect(() => {
-    console.log(editedUser)
-  }, [editedUser])
+  const navigate = useNavigate()
 
   return (
     <>
@@ -40,22 +40,39 @@ const EditProfile = () => {
           onAvatarPick={(seed, style) => setEditedUser({ ...editedUser, avatar: { ...editedUser.avatar, seed, style } })}
         />}
 
-
-      {!user && <Link to='/login'>Log In</Link>}
-      {user && editedUser &&
+      {loading && <LoadingSpinner />}
+      {!loading && !user && <Link to='/login'>Log In</Link>}
+      {!loading && user && editedUser &&
         <>
           <div className="profileOutline">
             <div className="editButtons">
-              <button disabled={JSON.stringify(user) === JSON.stringify(editedUser)}>Save</button>
+              <button type="button" onClick={async () => {
+                setLoading(true)
+                try {
+                  const updated = await updateUser(editedUser)
+                  setUser(updated)
+                  navigate(`/profile/${user.id}`, { replace: true })
+                } catch (err) {
+                  alert(err)
+                } finally {
+                  setLoading(false)
+                }
+              }} disabled={JSON.stringify(user) === JSON.stringify(editedUser)}>Save</button>
               <button onClick={() => setEditedUser(user)} disabled={JSON.stringify(user) === JSON.stringify(editedUser)}>Restore</button>
             </div>
             <div className="profileTop">
               <div className="profileTopLeft">
                 <img
+                  tabIndex={0}
                   className="changeAvatar"
                   src={createAvatar(AVATAR_STYLES[editedUser.avatar.style],
                     { seed: editedUser.avatar.seed, size: 128 }).toDataUri()}
                   onClick={() => setOpenAvatarPicker(!openAvatarPicker)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      setOpenAvatarPicker(!openAvatarPicker)
+                    }
+                  }}
                   alt="User Avatar"
                 />
                 <input

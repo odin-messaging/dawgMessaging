@@ -16,6 +16,7 @@ nav {
 nav .headerLinks {
   display: flex;
   gap: 1rem;
+  align-items: center;
 }
 
 nav * {
@@ -68,12 +69,25 @@ nav * {
   cursor: pointer;
   background-color: transparent;
   border: none;
-  font-size: 1.2rem;  
-  font-family: inherit; 
-  font-weight: inherit; 
+  font-size: 1.2rem;
+  font-family: inherit;
+  font-weight: inherit;
 }
 
 .headerLink:hover,
 .headerLink:focus {
   background-color: rgb(255, 255, 255, 0.2);
+}
+
+.headerAvatar {
+  height: 3.5rem;
+  width: 3.5rem;
+}
+
+.profileContainer {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  height: 3.5rem;
+  width: 3.5rem;
 }

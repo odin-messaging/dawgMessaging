@@ -24,7 +24,6 @@ export default function AvatarPicker({ setOpenAvatarPicker, onAvatarPick }) {
     }
     const chosenSeed = `${baseSeed}-${index}`
     setSelectedSeed(chosenSeed)
-    console.log('Selected avatar', { style, seed: chosenSeed })
   }
 
   const randomizeSeed = () => {

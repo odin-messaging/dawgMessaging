@@ -34,11 +34,7 @@ const Signup = () => {
 
   return (
     <>
-      <Header
-        links={[
-          { title: 'Home', href: '/' }
-        ]}
-      />
+      <Header />
 
       <div className="authBtns">
         <Link to={'/login'}>Log In</Link>
