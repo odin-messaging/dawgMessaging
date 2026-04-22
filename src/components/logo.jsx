@@ -1,17 +1,6 @@
 import '../css/header.css';
 import { Link } from 'react-router-dom';
 
-// const Logo = ({ height }) => {
-//   return (
-//     <Link to="/" className='logo' style={{height: `${height}px`}}>
-//       <h1>
-//         <span className="headerTitleRotate">Dawg</span>
-//         <span>Messaging</span>
-//       </h1>
-//     </Link>
-//   )
-// }
-
 const Logo = ({ size = 50 }) => (
   <svg
     height={size}
@@ -26,7 +15,7 @@ const Logo = ({ size = 50 }) => (
       <g transform="rotate(-90)">
         <text
           x="10"
-          y="-290"                 // 👈 vertical offset AFTER rotation
+          y="-290"                 // vertical offset AFTER rotation
           fontSize="50"
           fontStyle="oblique"
           fill="#29bbff"

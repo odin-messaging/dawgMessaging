@@ -1,0 +1,90 @@
+
+
+.partial {
+  width: 100%;
+  min-height: 100%;
+  box-shadow: 0 0 10px 1px;
+  border-radius: 20px;
+  padding: 1rem;
+}
+
+.outletOptions {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  justify-content: start;
+  gap: 1.5rem;
+}
+
+.optionCard {
+  width: 100%;
+  aspect-ratio: 1/1.1;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: rgb(106,137,167);
+  border: 3px solid black;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  font-size: large;
+  color: black;
+  text-decoration: none;
+  gap: 0.5rem;
+  word-break: break-word;
+}
+
+.optionCard:hover,
+.optionCard:focus {
+  background-color: rgb(106,137,167, 0.8);
+  transform: scale(1.05);
+}
+
+.optionCard .icon { 
+  width: 50%;
+  max-width: 8rem;
+  height: auto;
+}
+
+.backArrow {
+  height: 2rem;
+}
+
+.friendList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.message.received {
+  background-color: gray;
+  max-width: clamp(200px, 45%, 600px);
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  border-radius: 20px 5px 5px 2px;
+}
+
+.message.sent {
+  background-color: rgb(106,137,167);
+  max-width: clamp(200px, 45%, 600px);
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  border-radius: 5px 20px 2px 5px;
+  align-self: flex-end;
+}
+
+.message.received {
+  background-color: #2a2b2f;
+  color: #ddd;
+}
+
+.message.sent {
+  background-color: #5865f2;
+  color: white;
+}

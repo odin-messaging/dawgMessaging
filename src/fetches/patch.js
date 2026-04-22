@@ -1,5 +1,5 @@
 const url = import.meta.env.VITE_BASE_URL
-const headers = { Authorization: `Bearer ${localStorage.getItem("token")}`, 'Content-Type': 'application/json' }
+const headers = { 'Content-Type': 'application/json' }
 
 // updatedUser obj of the form 
 //------------------------------------------------//
@@ -18,7 +18,11 @@ const updateUser = async (updatedUser) => {
   try {
     const res = await fetch(`${url}/auth/me`, {
       method: 'PATCH',
-      headers,
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+      cache: "no-store",
       body: JSON.stringify({ updatedUser }) // body must be an obj to allow destructering on the server
     })
 

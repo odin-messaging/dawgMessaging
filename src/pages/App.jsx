@@ -7,36 +7,37 @@ import Header from '../components/Header'
 import Logo from '../components/logo'
 import { useAuth } from '../components/AuthContext'
 import { getAllOtherUsers } from '../fetches/get'
+import DisplayUsers from '../components/DisplayUsers'
+import { Navigate, Outlet } from "react-router-dom"
 
 const App = () => {
-  const [data, setData] = useState(null)
+  const [otherUsers, setOtherUsers] = useState(null)
   const { logoutUser, user } = useAuth()
 
   useEffect(() => {
     const load = async () => {
       const fetch = await getAllOtherUsers()
-      setData(fetch)
+      setOtherUsers(fetch)
     }
 
     load()
   }, [])
 
-  useEffect(() => {
-    console.log(data)
-  }, [data])
+return (
+  <div className="appWrapper">
+    <Header links={[]} />
 
-  return (
-    <>
-      <Header links={[
-        // { title: 'Profile', href: `/profile/${user.id}` }
-      ]} />
-
-      <div>
-        <h2>Wecome to</h2>
-        <Logo size='100' />
+    <div className='appMainPage'>
+      <div className='appLeftSide'> 
+        {otherUsers && <DisplayUsers users={otherUsers} />}
       </div>
-    </>
-  )
+
+      <div className='appRightSide'>
+        <Outlet />
+      </div>
+    </div>
+  </div>
+)
 }
 
 export default App

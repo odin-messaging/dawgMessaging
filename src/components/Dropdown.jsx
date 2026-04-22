@@ -23,6 +23,7 @@ const Dropdown = ({ links }) => {
           </div>
         ) : (
           <Link
+            onKeyDown={(e) => clickOnEnterKey(e)}
             tabIndex={0}
             key={link.title}
             to={link.href}

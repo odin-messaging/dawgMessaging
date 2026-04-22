@@ -14,8 +14,7 @@ describe('App component', () => {
       </MemoryRouter>
     )
 
-    expect(screen.getByText('Wecome to')).toBeInTheDocument()
     expect(screen.getByText('Log In')).toBeInTheDocument()
-    expect(screen.getAllByText('Messaging')).toHaveLength(2)
+    expect(screen.getAllByText('Messaging')).toHaveLength(1)
   })
 })

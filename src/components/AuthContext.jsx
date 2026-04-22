@@ -1,14 +1,12 @@
 import { createContext, useEffect, useState, useContext } from "react"
 import { getUser } from "../fetches/get"
 import { login } from "../fetches/post"
-import { useNavigate } from "react-router-dom"
 
 const UserContext = createContext()
 
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
-  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -42,11 +40,17 @@ export function UserProvider({ children }) {
     }
   }
 
-  function logoutUser() {
-    localStorage.removeItem("token")
-    console.log('logged out')
-    setUser(null)
-    navigate("/login", { replace: true })
+  async function logoutUser() {
+    setLoading(true)
+    try {
+      setUser(null)
+      localStorage.removeItem("token")
+      setUser(await getUser())
+    } catch (err) {
+      console.log(err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (

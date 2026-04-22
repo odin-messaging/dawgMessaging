@@ -1,6 +1,6 @@
 import '../css/header.css'
 import Logo from './logo'
-import { href, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuth } from './AuthContext'
 import { lorelei, adventurer, bottts, rings } from '@dicebear/collection'
 import { createAvatar } from '@dicebear/core'
