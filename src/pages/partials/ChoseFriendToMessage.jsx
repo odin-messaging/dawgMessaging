@@ -35,10 +35,6 @@ const ChoseFriendToMessage = () => {
     load()
   }, [])
 
-  useEffect(() => {
-    console.log(friends)
-  }, [friends])
-
   return (
     <>
       <div className='partial'>

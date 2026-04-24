@@ -1,11 +1,11 @@
-
-
 .partial {
   width: 100%;
   min-height: 100%;
   box-shadow: 0 0 10px 1px;
   border-radius: 20px;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .outletOptions {
@@ -24,7 +24,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  background-color: rgb(106,137,167);
+  background-color: rgb(106, 137, 167);
   border: 3px solid black;
   transition: transform 0.2s ease, background-color 0.2s ease;
   font-size: large;
@@ -36,11 +36,11 @@
 
 .optionCard:hover,
 .optionCard:focus {
-  background-color: rgb(106,137,167, 0.8);
+  background-color: rgb(106, 137, 167, 0.8);
   transform: scale(1.05);
 }
 
-.optionCard .icon { 
+.optionCard .icon {
   width: 50%;
   max-width: 8rem;
   height: auto;
@@ -60,31 +60,84 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
+  flex: 1;
 }
 
 .message.received {
-  background-color: gray;
-  max-width: clamp(200px, 45%, 600px);
+  background-color: #2a2b2f;
+  color: #ddd;
+  max-width: max(200px, 45%);
   width: fit-content;
   padding: 0.5rem 1rem;
   border-radius: 20px 5px 5px 2px;
 }
 
 .message.sent {
-  background-color: rgb(106,137,167);
-  max-width: clamp(200px, 45%, 600px);
+  background-color: #5865f2;
+  color: white;
+  max-width: max(200px, 45%);
   width: fit-content;
   padding: 0.5rem 1rem;
   border-radius: 5px 20px 2px 5px;
   align-self: flex-end;
 }
 
-.message.received {
-  background-color: #2a2b2f;
-  color: #ddd;
+.sendMessage {
+  width: 100%;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  position: sticky;
+  bottom: -1rem;
+  background-color: rgb(17 24 39);
+  padding: 0.5rem;
+  padding-top: 0;
 }
 
-.message.sent {
-  background-color: #5865f2;
+.sendMessage input {
+  flex: 1;
+  height: 4rem;
+  font-size: 1.5rem;
+}
+
+.sendMessage img {
+  height: 2rem;
+  padding: 0.5rem;
+  box-sizing: content-box;
+  border-radius: 5px;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.sendMessage img:hover,
+.sendMessage img:focus {
+  transform: scale(1.1);
+  background-color: rgb(255, 255, 255, 0.2);
+}
+
+.loadOldMessagesBtn {
+  background-color: transparent;
   color: white;
+  font-size: large;
+  background-color: rgb(26 32 44);
+  box-shadow: 0 0 5px 0;
+  cursor: pointer;
+  border: 2px solid rgb(26 32 44);
+  border-radius: 10px;
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.loadOldMessagesBtn:hover,
+.loadOldMessagesBtn:focus {
+  background-color: rgb(26 32 44, 0.8);
+  border-color: rgb(26 32 44, 0.8);
+  box-shadow: 0 0 10px 1px;
+  transform: scale(1.01);
+}
+
+.loadOldMessagesBtn:active {
+  background-color: rgb(26 32 44, 0.6);
+  border-color: rgb(26 32 44, 0.6);
+  box-shadow: 0 0 5px 0;
+  transform: scale(0.99);
 }

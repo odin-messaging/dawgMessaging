@@ -19,15 +19,9 @@ const User = ({ user }) => {
       }}
     >
       <img
-        tabIndex={0}
         className="listedUserAvatar"
         src={createAvatar(AVATAR_STYLES[user.avatar.style],
           { seed: user.avatar.seed, size: 128 }).toDataUri()}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            setOpenDropdown(!openDropdown)
-          }
-        }}
         alt="User Avatar"
       />
       <div>{user.username}</div>

@@ -6,8 +6,8 @@ const PartialInfoTopPanel = () => {
   const navigate = useNavigate()
 
   return (
-    <div onClick={() => navigate(-1)} style={{ cursor: 'pointer' }}>
-      <img className='backArrow' src={arrow} alt="go back" />
+    <div>
+      <img onClick={() => navigate(-1)} style={{ cursor: 'pointer' }} className='backArrow' src={arrow} alt="go back" />
       <hr />
     </div>
   )

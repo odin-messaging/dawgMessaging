@@ -44,7 +44,30 @@ const signup = async (username, password) => {
   }
 }
 
+const sendMessage = async (message, receiverId) => {
+  try {
+    const res = await fetch(`${url}/users/friends/message/${receiverId}`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+      body: JSON.stringify({ message })
+    })
+    
+    const data = await res.json()
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to send message')
+    }
+
+    return data
+  } catch (err) {
+    throw new Error(err.message || 'Network error')
+  }
+}
+
 export {
   login,
-  signup
+  signup,
+  sendMessage,
 }

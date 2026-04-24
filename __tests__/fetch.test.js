@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { getMainPage, url } from '../src/fetches/get'
+import { getMainPage, baseUrl } from '../src/fetches/get'
 
 describe('getMainPage function', () => {
   beforeEach(() => {
@@ -12,7 +12,7 @@ describe('getMainPage function', () => {
 
   it('calls fetch with the base URL and returns parsed json', async () => {
     const result = await getMainPage()
-    expect(global.fetch).toHaveBeenCalledWith(url)
+    expect(global.fetch).toHaveBeenCalledWith(baseUrl)
     expect(result).toEqual({ data: 'ok' })
   })
 })

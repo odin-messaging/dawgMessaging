@@ -1,14 +1,14 @@
-export const url = import.meta.env.VITE_BASE_URL
+export const baseUrl = import.meta.env.VITE_BASE_URL
 const headers = { 'Content-Type': 'application/json' }
 
 const getMainPage = async () => {
-  return fetch(`${url}`)
+  return fetch(`${baseUrl}`)
     .then((res) => res.json())
     .catch((err) => console.log(err))
 }
 
 const getUser = async () => {
-  return fetch(`${url}/auth/me`, {
+  return fetch(`${baseUrl}/auth/me`, {
     headers: {
       ...headers,
       Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -20,7 +20,7 @@ const getUser = async () => {
 }
 
 const getProfile = async (id) => {
-  return fetch(`${url}/users/profile/${id}`, {
+  return fetch(`${baseUrl}/users/profile/${id}`, {
     headers: {
       ...headers,
       Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -31,7 +31,7 @@ const getProfile = async (id) => {
 }
 
 const getAllOtherUsers = async () => {
-  return fetch(`${url}/users`, {
+  return fetch(`${baseUrl}/users`, {
     headers: {
       ...headers,
       Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -42,7 +42,28 @@ const getAllOtherUsers = async () => {
 }
 
 const getFriends = async () => {
-  return fetch(`${url}/users/friends`, {
+  return fetch(`${baseUrl}/users/friends`, {
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err))
+}
+
+const getConversation = async (friendId, lastMessageId, direction) => {
+  let url = `${baseUrl}/users/friends/message/${friendId}`
+
+  if (lastMessageId && direction) {
+    url += `?lastMessageId=${lastMessageId}&direction=${direction}`
+  } else if (lastMessageId) {
+    url += `?lastMessageId=${lastMessageId}`
+  } else if (direction) {
+    url += `?direction=${direction}`
+  }
+
+  return fetch(url, {
     headers: {
       ...headers,
       Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -57,5 +78,6 @@ export {
   getUser,
   getProfile,
   getAllOtherUsers,
-  getFriends
+  getFriends,
+  getConversation
 }
