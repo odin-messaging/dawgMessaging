@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Dropdown from "./Dropdown"
 import { lorelei, adventurer, bottts, rings } from '@dicebear/collection'
 import { createAvatar } from '@dicebear/core'
+import { isWithinTenMinutes } from "./checkOnlineStatus"
 
+// Seperating User to it's own component so each user can have their own dropdown
 const User = ({ user }) => {
   const [openDropdown, setOpenDropdown] = useState(false)
   const AVATAR_STYLES = { adventurer, lorelei, bottts, rings }
@@ -18,6 +20,10 @@ const User = ({ user }) => {
         }
       }}
     >
+      {isWithinTenMinutes(user.lastSeen) ?
+        <div className="onlineStatusSmall online"></div>
+        :
+        <div className="onlineStatusSmall offline"></div>}
       <img
         className="listedUserAvatar"
         src={createAvatar(AVATAR_STYLES[user.avatar.style],
@@ -36,11 +42,8 @@ const User = ({ user }) => {
 // arr of users in obj form
 const DisplayUsers = ({ users }) => {
 
-  // Seperating User to it's own component so each user can have their own dropdown
   return (
-    <div className="userList">
-      <div className="legend">Users</div>
-      <hr />
+    <div className="friendGrid">
       {users.map((user) => (
         <User key={user.id} user={user} />
       ))}

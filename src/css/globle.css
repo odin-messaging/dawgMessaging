@@ -103,7 +103,6 @@ body {
   flex: 1;
   width: 100%;
   flex-wrap: wrap;
-  overflow: hidden;
 }
 
 .appLeftSide {
@@ -127,25 +126,16 @@ body {
   overflow-x: hidden;
 }
 
-.userList {
-  padding: 1rem;
-  border-radius: 20px;
-  box-shadow: 0 0 10px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
 .listedUser {
+  position: relative;
+  overflow-x: scroll;
   min-width: 100px;
   font-size: large;
   cursor: pointer;
   padding: 0.2rem 0.5rem;
   border-radius: 5px;
-  position: relative;
   display: flex;
   align-items: center;
-  gap: 1rem;
   text-decoration: none;
   color: inherit;
 }
@@ -161,11 +151,28 @@ body {
 
 .listedUserAvatar {
   height: 3rem;
+  margin-right: 0.8rem;
+}
+
+.friendGrid {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  position: relative;
+}
+
+.userList {
+  padding: 1rem;
+  border-radius: 20px;
+  box-shadow: 0 0 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+  position: relative;
 }
 
 .userList .legend {
-  width: 100%;
-  text-align: center;
   font-size: x-large;
 }
 
@@ -187,6 +194,7 @@ body {
   }
 
   #root {
-      height: fit-content;
+    height: fit-content;
+    min-height: 100vh;
   }
 }

@@ -48,11 +48,16 @@
 
 .backArrow {
   height: 2rem;
+  padding: 0.2rem 0.5rem;
+  box-sizing: content-box;
+  border-radius: 5px;
+  transition: transform 0.15s ease, background-color 0.15s ease
 }
 
-.friendList {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+.backArrow:hover,
+.backArrow:focus {
+  transform: scale(1.05);
+  background-color: rgb(255, 255, 255, 0.2);
 }
 
 .messages {
@@ -63,22 +68,22 @@
   flex: 1;
 }
 
-.message.received {
-  background-color: #2a2b2f;
-  color: #ddd;
-  max-width: max(200px, 45%);
+.message {
+  max-width: max(300px, 45%);
   width: fit-content;
   padding: 0.5rem 1rem;
-  border-radius: 20px 5px 5px 2px;
+  border-radius: 5px 20px 2px 5px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.message.received {
+  background-color: rgb(34, 197, 94, 0.4);
+  color: #ddd;
 }
 
 .message.sent {
   background-color: #5865f2;
-  color: white;
-  max-width: max(200px, 45%);
-  width: fit-content;
-  padding: 0.5rem 1rem;
-  border-radius: 5px 20px 2px 5px;
+  color: #ddd;
   align-self: flex-end;
 }
 
@@ -115,6 +120,11 @@
   background-color: rgb(255, 255, 255, 0.2);
 }
 
+.sendMessage img:active {
+  transform: scale(0.95);
+  background-color: rgb(255, 255, 255, 0.3);
+}
+
 .loadOldMessagesBtn {
   background-color: transparent;
   color: white;
@@ -125,6 +135,7 @@
   border: 2px solid rgb(26 32 44);
   border-radius: 10px;
   transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  margin-bottom: 1rem;
 }
 
 .loadOldMessagesBtn:hover,
@@ -140,4 +151,29 @@
   border-color: rgb(26 32 44, 0.6);
   box-shadow: 0 0 5px 0;
   transform: scale(0.99);
+}
+
+.optionButtons {
+  max-width: 700px;
+  min-width: 300px;
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.optionButtons .optionButton {
+  background-color: rgb(106, 137, 167);
+  color: black;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.optionButtons .optionButton:hover,
+.optionButtons .optionButton:focus {
+  background-color: rgb(106, 137, 167, 0.9);
+  transform: scale(1.05);
 }

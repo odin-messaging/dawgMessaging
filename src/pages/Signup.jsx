@@ -14,8 +14,13 @@ const Signup = () => {
   const navigate = useNavigate()
 
   const sendSignup = async (e) => {
-    e.preventDefault()
     setValidationError([])
+    e.preventDefault()
+    if (username.length > 20 || username.length < 2) {
+      setValidationError(prev => [...prev, 'Username must be between 2 and 20 characters'])
+      setUsername('')
+      return
+    }
     if (password !== confirmPassword) {
       setValidationError((prev) => [...prev, 'Passwords do not match'])
       setConfirmPassword('')

@@ -46,11 +46,22 @@ input {
   border-radius: 50%;
 }
 
-.onlineStatus.online {
+.onlineStatusSmall {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+}
+
+.onlineStatus.online,
+.onlineStatusSmall.online {
   background-color: green;
 }
 
-.onlineStatus.offline {
+.onlineStatus.offline,
+.onlineStatusSmall.offline {
   background-color: red;
 }
 
@@ -164,9 +175,12 @@ input {
 }
 
 .changeAvatar {
+  cursor: pointer;
+}
+
+.avatar {
   height: 100px;
   width: 100px;
-  cursor: pointer;
   border-radius: 50%;
   background-color: rgb(26 32 44);
   overflow: hidden;
@@ -179,4 +193,10 @@ input {
   font-size: xx-large;
   gap: 1rem;
   font-weight: bolder;
+}
+
+.centered {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }

@@ -64,7 +64,7 @@ const EditProfile = () => {
               <div className="profileTopLeft">
                 <img
                   tabIndex={0}
-                  className="changeAvatar"
+                  className="changeAvatar avatar"
                   src={createAvatar(AVATAR_STYLES[editedUser.avatar.style],
                     { seed: editedUser.avatar.seed, size: 128 }).toDataUri()}
                   onClick={() => setOpenAvatarPicker(!openAvatarPicker)}

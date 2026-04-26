@@ -9,6 +9,8 @@ import EditProfile from "./pages/EditProfile"
 import ChoseFriendToMessage from "./pages/partials/ChoseFriendToMessage"
 import MainPageDefaultOutlet from "./pages/partials/mainPageDefaultOutlet"
 import Message from "./pages/partials/Message"
+import ViewFriends from "./pages/partials/ViewFriends"
+import ViewFriendDetails from "./pages/partials/ViewFriendDetails"
 
 function ProtectedRoute() {
   const { isAuthenticated, loading } = useAuth()
@@ -40,6 +42,8 @@ const routes = [
         children: [
           { path: "/", element: <MainPageDefaultOutlet /> },
           { path: "/message", element: <ChoseFriendToMessage /> },
+          { path: "/friends", element: <ViewFriends /> },
+          { path: "/friends/:id", element: <ViewFriendDetails /> },
           { path: "/message/:id", element: <Message /> },
         ]
       },
