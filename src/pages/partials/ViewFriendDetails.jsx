@@ -8,12 +8,14 @@ import PartialInfoTopPanel from "./partialInfoTopPanel"
 import { ProfileUI } from "../Profile"
 import { deleteFriend } from "../../fetches/delete"
 import { useNavigate } from "react-router"
+import { useAlert } from "../../components/AlertContext"
 
 const ViewFriendDetails = () => {
   const [profile, setProfile] = useState(null)
   const { id } = useParams()
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+  const { setAlert } = useAlert()
 
   useEffect(() => {
     const load = async () => {
@@ -36,7 +38,7 @@ const ViewFriendDetails = () => {
   }, [profile])
 
   return (
-    <div className="partial">
+    <>
       <PartialInfoTopPanel />
       <div className="centered">
         <div className='optionButtons'>
@@ -45,9 +47,11 @@ const ViewFriendDetails = () => {
             className='optionButton'
             onClick={async () => {
               try {
-                await deleteFriend(id)
+                const res = await deleteFriend(id)
+                setAlert(res?.message || 'Deleted Friend', 'success')
               } catch (err) {
                 console.log(err)
+                setAlert(res?.err || 'Failed to delet friend', 'error')
               } finally {
                 navigate(-1)
               }
@@ -60,7 +64,7 @@ const ViewFriendDetails = () => {
 
         <ProfileUI profile={profile} loading={loading} />
       </div>
-    </div>
+    </>
   )
 }
 

@@ -1,40 +1,71 @@
 import { Link } from "react-router-dom"
+import { useAlert } from "./AlertContext"
 
 const Dropdown = ({ links }) => {
+  const { setAlert } = useAlert()
 
-  const clickOnEnterKey = (e) => {
-    if (e.key == 'Enter') {
-      e.target.click()
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+      e.currentTarget.click()
+    }
+  }
+
+  const handleActionClick = async (action) => {
+    try {
+      const res = await action()
+
+      const message =
+        typeof res === "string"
+          ? res
+          : res?.message || "Action completed successfully"
+
+      setAlert(message, "success")
+    } catch (error) {
+      console.error("Action failed:", error)
+      setAlert(
+        error?.message || "An error occurred while performing the action",
+        "error"
+      )
     }
   }
 
   return (
     <div className="openMoreOptions">
-      {links.map(link =>
-        link.action ? (
-          <div
-            key={link.title}
-            className={`${link.className ? link.className : ''} dropdown-link`}
-            onClick={link.action}
-            tabIndex={0}
-            onKeyDown={(e) => clickOnEnterKey(e)}
-          >
-            {link.title}
-          </div>
-        ) : (
+      {links.map((link) => {
+        const commonProps = {
+          tabIndex: 0,
+          onKeyDown: handleKeyDown,
+          className: `dropdown-link ${link.className || ''}`.trim(),
+        }
+
+        if (link.action) {
+          return (
+            <div
+              {...commonProps}
+              onClick={() => handleActionClick(link.action)}
+              role="button"
+              key={link.title}
+              aria-label={link.title}
+            >
+              {link.title}
+            </div>
+          );
+        }
+
+        return (
           <Link
-            onKeyDown={(e) => clickOnEnterKey(e)}
-            tabIndex={0}
-            key={link.title}
+            {...commonProps}
             to={link.href}
-            className={`${link.className ? link.className : ""} dropdown-link`}
+            role="menuitem"
+            key={link.title + ' '}
           >
             {link.title}
           </Link>
-        )
-      )}
+        );
+      })}
     </div>
-  )
-}
+  );
+};
 
-export default Dropdown
+export default Dropdown;

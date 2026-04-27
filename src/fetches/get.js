@@ -41,6 +41,17 @@ const getAllOtherUsers = async () => {
     .catch((err) => console.log(err))
 }
 
+const getAllOtherUsersThatAreNotFriends = async () => {
+  return fetch(`${baseUrl}/users/not-friends`, {
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err))
+}
+
 const getFriends = async () => {
   return fetch(`${baseUrl}/users/friends`, {
     headers: {
@@ -79,5 +90,6 @@ export {
   getProfile,
   getAllOtherUsers,
   getFriends,
-  getConversation
+  getConversation,
+  getAllOtherUsersThatAreNotFriends,
 }

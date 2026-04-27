@@ -11,6 +11,8 @@ import MainPageDefaultOutlet from "./pages/partials/mainPageDefaultOutlet"
 import Message from "./pages/partials/Message"
 import ViewFriends from "./pages/partials/ViewFriends"
 import ViewFriendDetails from "./pages/partials/ViewFriendDetails"
+import SendFriendRequest from "./pages/partials/SendFriendRequest"
+import AlertPopup from "./components/AlertPopup"
 
 function ProtectedRoute() {
   const { isAuthenticated, loading } = useAuth()
@@ -45,10 +47,11 @@ const routes = [
           { path: "/friends", element: <ViewFriends /> },
           { path: "/friends/:id", element: <ViewFriendDetails /> },
           { path: "/message/:id", element: <Message /> },
+          { path: "/profile/:id", element: <Profile /> },
+          { path: "/friends/request", element: <SendFriendRequest /> },
+          { path: "/profile/edit", element: <EditProfile /> },
         ]
       },
-      { path: "/profile/edit", element: <EditProfile /> },
-      { path: "/profile/:id", element: <Profile /> },
     ],
   },
   {

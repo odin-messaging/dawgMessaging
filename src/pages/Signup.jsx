@@ -16,8 +16,8 @@ const Signup = () => {
   const sendSignup = async (e) => {
     setValidationError([])
     e.preventDefault()
-    if (username.length > 20 || username.length < 2) {
-      setValidationError(prev => [...prev, 'Username must be between 2 and 20 characters'])
+    if (username.length > 30 || username.length < 2) {
+      setValidationError(prev => [...prev, 'Username must be between 2 and 30 characters'])
       setUsername('')
       return
     }

@@ -126,7 +126,6 @@ const Message = () => {
 
   return (
     <>
-      <div className='partial'>
         <PartialInfoTopPanel />
         <div className='messages'>
           {loading && <LoadingSpinner />}
@@ -144,7 +143,6 @@ const Message = () => {
           }
         </div>
         <SendMessage recipientId={id} setLoadNew={setLoadNew} />
-      </div>
     </>
   )
 }

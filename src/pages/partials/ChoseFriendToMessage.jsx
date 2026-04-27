@@ -34,16 +34,15 @@ const ChoseFriendToMessage = () => {
 
   return (
     <>
-      <div className='partial'>
-        <PartialInfoTopPanel />
-        {error && <div>{error}</div>}
-        {friends && friends.length === 0 && <div>You have no friends yet, go out and make some!</div>}
-        {loading && <LoadingSpinner />}
+      <PartialInfoTopPanel />
+      {error && <div>{error}</div>}
+      {friends && friends.length === 0 && <div>You have no friends yet, go out and make some!</div>}
+      {loading && <LoadingSpinner />}
 
-        {friends && !loading && friends.length > 0 &&
-          <DisplayUsers users={friends} />
-        }
-      </div>
+      {friends && !loading && friends.length > 0 &&
+        // id of user is appended onto the link in the component
+        <DisplayUsers link={'/message'} users={friends} />
+      }
     </>
   )
 }

@@ -6,6 +6,7 @@ import Header from '../components/Header'
 import { getAllOtherUsers } from '../fetches/get'
 import DisplayUsers from '../components/DisplayUsers'
 import { Outlet } from "react-router-dom"
+import AlertPopup from '../components/AlertPopup'
 
 const App = () => {
   const [otherUsers, setOtherUsers] = useState(null)
@@ -21,6 +22,8 @@ const App = () => {
 
   return (
     <div className="appWrapper">
+      <AlertPopup />
+
       <Header links={[]} />
 
       <div className='appMainPage'>
@@ -29,13 +32,18 @@ const App = () => {
             <div className="userList">
               <div className="legend">Users</div>
               <hr />
-              <DisplayUsers users={otherUsers} />
+              <DisplayUsers
+                dropdown={[
+                  { title: 'View Profile', href: `/profile` }
+                ]} users={otherUsers} />
             </div>
           }
         </div>
 
         <div className='appRightSide'>
-          <Outlet />
+          <div className='partial'>
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>

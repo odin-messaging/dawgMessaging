@@ -1,5 +1,5 @@
 .openMoreOptions {
-  z-index: 9999;
+  z-index: 9999 ;
   background-color: rgb(26 32 44);
   border-radius: 5px;
   padding: 10px;
@@ -10,7 +10,7 @@
   box-shadow: 0 0 10px 0;
   color: white;
   position: absolute;
-  top: 0;
+  top: 120%;
   right: 0;
 }
 

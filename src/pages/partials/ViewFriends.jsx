@@ -40,10 +40,9 @@ const ViewFriends = () => {
 
   return (
     <>
-      <div className='partial'>
         <PartialInfoTopPanel />
         <div className='optionButtons'>
-          <Link to={`/message/`} className='optionButton'>Send Friend Request</Link>
+          <Link to={`/friends/request`} className='optionButton'>Send Friend Request</Link>
         </div>
         {error && <div>{error}</div>}
         {loading && <LoadingSpinner />}
@@ -51,9 +50,9 @@ const ViewFriends = () => {
 
 
         {friends && !loading && friends.length > 0 &&
-          <DisplayUsers users={friends} />
+          // id of user is appended onto the link in the component
+          <DisplayUsers link={`/friends`} users={friends} />
         }
-      </div>
     </>
   )
 }

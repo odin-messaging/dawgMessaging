@@ -1,4 +1,3 @@
-import Header from "../components/Header"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { useAuth } from "../components/AuthContext"
@@ -9,9 +8,11 @@ import { createAvatar } from '@dicebear/core'
 import { getProfile } from "../fetches/get"
 import { useParams } from "react-router"
 import LoadingSpinner from "../components/LoadingSpinner"
+import PartialInfoTopPanel from "./partials/partialInfoTopPanel"
 
 const ProfileUI = ({ profile, loading }) => {
   const AVATAR_STYLES = { adventurer, lorelei, bottts, rings }
+  const { user } = useAuth()
 
   return (
     <>
@@ -27,10 +28,12 @@ const ProfileUI = ({ profile, loading }) => {
               />
               <div>{profile.username}</div>
             </div>
-            <div>{isWithinTenMinutes(profile.lastSeen) ?
+            <div className="flexColumn">{isWithinTenMinutes(profile.lastSeen) ?
               <div className="flex"><span>Online</span><div className="onlineStatus online"></div></div>
               :
-              <div className="flex"><span>Offline</span><div className="onlineStatus offline"></div></div>}</div>
+              <div className="flex"><span>Offline</span><div className="onlineStatus offline"></div></div>}
+             {user.id === profile.id && <Link className="optionButton" to='/profile/edit'>Edit Profile</Link>}
+            </div>
           </div>
           <hr />
           <div className="profileBottom">{profile.blurb}</div>
@@ -44,7 +47,6 @@ const Profile = () => {
   const [profile, setProfile] = useState(null)
   const { id } = useParams()
   const [loading, setLoading] = useState(true)
-  const { user } = useAuth()
 
   useEffect(() => {
     const load = async () => {
@@ -60,18 +62,16 @@ const Profile = () => {
     }
 
     load()
-  }, [])
+  }, [id])
 
   return (
     <>
-      <Header links={[
-        { title: 'Home', href: '/' },
-        Number(user.id) === Number(id) && { title: 'Edit Profile', href: '/profile/edit' }
-      ].filter(Boolean)} />
-
+      <PartialInfoTopPanel />
       {loading && <LoadingSpinner />}
-      {!loading && !profile && <Link to='/login'>Log In</Link>}
-      <ProfileUI profile={profile} loading={loading} />
+      <div className="centered">
+        {!loading && !profile && <Link to='/login'>Log In</Link>}
+        <ProfileUI profile={profile} loading={loading} />
+      </div>
     </>
   )
 }

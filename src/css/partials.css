@@ -154,7 +154,6 @@
 }
 
 .optionButtons {
-  max-width: 700px;
   min-width: 300px;
   width: 100%;
   padding: 1rem;
@@ -163,7 +162,7 @@
   gap: 1rem;
 }
 
-.optionButtons .optionButton {
+.optionButton {
   background-color: rgb(106, 137, 167);
   color: black;
   text-decoration: none;
@@ -172,8 +171,12 @@
   transition: transform 0.15s ease, background-color 0.15s ease;
 }
 
-.optionButtons .optionButton:hover,
-.optionButtons .optionButton:focus {
+.optionButton:hover,
+.optionButton:focus {
   background-color: rgb(106, 137, 167, 0.9);
   transform: scale(1.05);
+}
+
+.nameSearch {
+  margin-bottom: 1rem;
 }

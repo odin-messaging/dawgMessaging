@@ -11,26 +11,23 @@ const MainPageDefaultOutlet = () => {
 
   return (
     <>
-      <div className='partial'>
-        <h2>Welcome back, {user.username}!</h2>
+      <h2>Welcome back, {user.username}!</h2>
 
-        <div className='outletOptions'>
-          <Link to='/friends' className='optionCard'>
-            <img className='icon' src={mutiUser} alt="" />
-            Friends
-          </Link>
+      <div className='outletOptions'>
+        <Link to='/friends' className='optionCard'>
+          <img className='icon' src={mutiUser} alt="" />
+          Friends
+        </Link>
 
-          <Link to='/message' className='optionCard'>
-            <img className='icon' src={message} alt="" />
-            Message
-          </Link>
+        <Link to='/message' className='optionCard'>
+          <img className='icon' src={message} alt="" />
+          Message
+        </Link>
 
-          <Link className='optionCard'>
-            <img className='icon' src={requests} alt="" />
-            Friend Requests
-          </Link>
-        </div>
-
+        <Link className='optionCard'>
+          <img className='icon' src={requests} alt="" />
+          Friend Requests
+        </Link>
       </div>
     </>
   )

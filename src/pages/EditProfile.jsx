@@ -10,6 +10,7 @@ import { lorelei, adventurer, bottts, rings } from '@dicebear/collection'
 import { updateUser } from "../fetches/patch"
 import LoadingSpinner from "../components/LoadingSpinner"
 import { useNavigate } from "react-router-dom"
+import PartialInfoTopPanel from "./partials/partialInfoTopPanel"
 
 const EditAvatarModal = ({ setOpenAvatarPicker, onAvatarPick }) => {
   return (
@@ -29,10 +30,6 @@ const EditProfile = () => {
 
   return (
     <>
-      <Header links={[
-        { title: 'Home', href: '/' },
-        { title: 'Profile', href: `/profile/${user.id}` }
-      ]} />
 
       {openAvatarPicker &&
         <EditAvatarModal
@@ -40,10 +37,11 @@ const EditProfile = () => {
           onAvatarPick={(seed, style) => setEditedUser({ ...editedUser, avatar: { ...editedUser.avatar, seed, style } })}
         />}
 
+      <PartialInfoTopPanel />
       {loading && <LoadingSpinner />}
       {!loading && !user && <Link to='/login'>Log In</Link>}
       {!loading && user && editedUser &&
-        <>
+        <div className="centered">
           <div className="profileOutline">
             <div className="editButtons">
               <button type="button" onClick={async () => {
@@ -95,7 +93,7 @@ const EditProfile = () => {
               onChange={(e) => setEditedUser({ ...editedUser, blurb: e.target.value })}>
             </textarea>
           </div>
-        </>
+        </div>
       }
     </>
   )

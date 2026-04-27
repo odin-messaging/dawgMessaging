@@ -200,3 +200,9 @@ input {
   align-items: center;
   flex-direction: column;
 }
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
