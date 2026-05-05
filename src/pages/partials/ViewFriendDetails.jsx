@@ -33,17 +33,12 @@ const ViewFriendDetails = () => {
     load()
   }, [])
 
-  useEffect(() => {
-    console.log(profile)
-  }, [profile])
-
   return (
     <>
       <PartialInfoTopPanel />
       <div className="centered">
         <div className='optionButtons'>
-          <Link to={`/message/${id}`} className='optionButton'>Message</Link>
-          <Link
+          <div
             className='optionButton'
             onClick={async () => {
               try {
@@ -51,14 +46,14 @@ const ViewFriendDetails = () => {
                 setAlert(res?.message || 'Deleted Friend', 'success')
               } catch (err) {
                 console.log(err)
-                setAlert(res?.err || 'Failed to delet friend', 'error')
+                setAlert(res?.err || 'Failed to delete friend', 'error')
               } finally {
                 navigate(-1)
               }
             }}
           >
             Remove Friend
-          </Link>
+          </div>
         </div>
         {loading && <LoadingSpinner />}
 

@@ -2,6 +2,9 @@ import { Link } from "react-router-dom"
 import { useAlert } from "./AlertContext"
 
 const Dropdown = ({ links }) => {
+  if (!links || links.length === 0) {
+    return null
+  }
   const { setAlert } = useAlert()
 
   const handleKeyDown = (e) => {
@@ -32,7 +35,7 @@ const Dropdown = ({ links }) => {
 
   return (
     <div className="openMoreOptions">
-      {links.map((link) => {
+      {links && links.map((link) => {
         const commonProps = {
           tabIndex: 0,
           onKeyDown: handleKeyDown,
@@ -50,7 +53,7 @@ const Dropdown = ({ links }) => {
             >
               {link.title}
             </div>
-          );
+          )
         }
 
         return (
@@ -62,10 +65,10 @@ const Dropdown = ({ links }) => {
           >
             {link.title}
           </Link>
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}
 
-export default Dropdown;
+export default Dropdown

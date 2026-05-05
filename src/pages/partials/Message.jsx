@@ -1,20 +1,20 @@
 import PartialInfoTopPanel from "./partialInfoTopPanel"
 import { useParams } from "react-router-dom"
 import { useAuth } from "../../components/AuthContext"
-import { use, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { getConversation } from "../../fetches/get"
 import sendArrow from '../../assets/send-message.svg'
 import { sendMessage } from "../../fetches/post"
 import LoadNewIcon from '../../assets/refresh.svg'
 import '../../css/partials.css'
 import LoadingSpinner from "../../components/LoadingSpinner"
+import DisplayAvatar from "../../components/DisplayAvatar"
+import { Link } from "react-router-dom"
 
 const SendMessage = ({ recipientId, setLoadNew }) => {
   const [message, setMessage] = useState("")
-  const [loading, setLoading] = useState(false)
 
   const messageLoop = async () => {
-    setLoading(true)
     try {
       await sendMessage(message, recipientId)
     } catch (err) {
@@ -22,7 +22,6 @@ const SendMessage = ({ recipientId, setLoadNew }) => {
     } finally {
       setMessage("")
       setLoadNew(prev => !prev)
-      setLoading(false)
     }
   }
 
@@ -79,8 +78,13 @@ const Message = () => {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    if (!conversation) return
     const loadRecentMessages = async () => {
-      const res = await getConversation(id, conversation[conversation.length - 1].id, "asc")
+      const lastId = conversation.length
+        ? conversation[conversation.length - 1].id
+        : 0
+
+      const res = await getConversation(id, lastId, "asc")
 
       if (res.error) {
         setError(res.error)
@@ -90,9 +94,7 @@ const Message = () => {
       setConversation(prev => [...prev, ...res])
     }
 
-    if (conversation) {
-      loadRecentMessages()
-    }
+    loadRecentMessages()
   }, [loadNew])
 
   useEffect(() => {
@@ -126,25 +128,62 @@ const Message = () => {
 
   return (
     <>
-        <PartialInfoTopPanel />
-        <div className='messages'>
-          {loading && <LoadingSpinner />}
-          {error && <div>{error}</div>}
-          {conversation && conversation.length === 0 && <div className="noConversation">No messages yet</div>}
-          {conversation && conversation.length !== 0 &&
-            <>
+      <PartialInfoTopPanel />
+      <div className='messages'>
+        {loading && <LoadingSpinner />}
+        {error && <div>{error}</div>}
+        {conversation && conversation.length === 0 && <div className="noConversation">No messages yet</div>}
+        {conversation && conversation.length !== 0 &&
+          <>
+            <div className="messagingOptions">
               <button className="loadOldMessagesBtn" onClick={() => setLoadOld((prev => !prev))}>load more</button>
-              {conversation.map(message => (
-                <div key={message.id} className={`message ${message.senderId == user.id ? 'sent' : 'received'}`}>
-                  {message.message}
-                </div>
-              ))}
-            </>
-          }
-        </div>
-        <SendMessage recipientId={id} setLoadNew={setLoadNew} />
+              <Link to={`/friends/chat/add/${id}`} className="optionButton">Add Friend To Chat</Link>
+            </div>
+            {conversation.map(message => (
+              <RenderSingleMessage key={message.id} message={message} id={user.id} />
+            ))}
+          </>
+        }
+      </div>
+      <SendMessage recipientId={id} setLoadNew={setLoadNew} />
     </>
   )
+}
+
+const RenderSingleMessage = ({ message, id }) => {
+  const [showDateSent, setShowDateSent] = useState(false)
+
+  return (
+    <div
+      onClick={() => setShowDateSent((prev) => !prev)}
+      className={`messageWrapper ${message.sender.id == id ? 'sent' : 'received'}`}
+    >
+      {showDateSent && <div className="details">
+        <span className="date">{formatMessageDate(message.dateSent)}</span>
+        <span className="username">@{message.sender.username}</span>
+      </div>}
+      <div className="flex">
+        <DisplayAvatar key={message.sender.id} style={message.sender.avatar.style} seed={message.sender.avatar.seed} className='listedUserAvatar chatListAvatar' />
+        <div className={`message ${message.sender.id == id ? 'sent' : 'received'}`}>
+          <span className="text">{message.message}</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function formatMessageDate(dateSent) {
+  const date = new Date(dateSent.replace(' ', 'T'))
+
+  const minutes = date.getMinutes()
+
+  const time = minutes === 0
+    ? date.toLocaleString('en-US', { hour: 'numeric', hour12: true })
+    : date.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+
+  const day = date.toLocaleString('en-US', { month: 'short', day: 'numeric' })
+
+  return `${day} at ${time}`
 }
 
 export default Message

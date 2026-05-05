@@ -1,4 +1,4 @@
-const url = import.meta.env.VITE_BASE_URL
+const baseUrl = import.meta.env.VITE_BASE_URL
 const headers = { 'Content-Type': 'application/json' }
 
 // updatedUser obj of the form 
@@ -16,7 +16,7 @@ const headers = { 'Content-Type': 'application/json' }
 
 const updateUser = async (updatedUser) => {
   try {
-    const res = await fetch(`${url}/auth/me`, {
+    const res = await fetch(`${baseUrl}/auth/me`, {
       method: 'PATCH',
       headers: {
         ...headers,
@@ -41,6 +41,28 @@ const updateUser = async (updatedUser) => {
   }
 }
 
+const ping = async () => {
+  const token = localStorage.getItem("token")
+  if (!token) {
+    console.log('No token passed to ping!')
+    return
+  }
+
+  try {
+    await fetch(`${baseUrl}/ping`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+  } catch (e) {
+    console.warn("ping failed", e)
+  }
+
+  return
+}
+
 export {
   updateUser,
+  ping
 }

@@ -68,23 +68,47 @@
   flex: 1;
 }
 
-.message {
+.messageWrapper {
   max-width: max(300px, 45%);
   width: fit-content;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  cursor: pointer;
+}
+
+.messageWrapper.received .details {
+  align-items: flex-end;
+}
+
+.messageWrapper .details {
+  font-size: small;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.messageWrapper.sent {
+  align-self: flex-end;
+}
+
+.messageWrapper.sent .flex {
+  flex-direction: row-reverse;
+}
+
+.message {
   padding: 0.5rem 1rem;
-  border-radius: 5px 20px 2px 5px;
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .message.received {
   background-color: rgb(34, 197, 94, 0.4);
   color: #ddd;
+  border-radius: 20px 5px 5px 2px;
 }
 
 .message.sent {
   background-color: #5865f2;
   color: #ddd;
-  align-self: flex-end;
+  border-radius: 5px 20px 2px 5px;
 }
 
 .sendMessage {
@@ -105,7 +129,8 @@
   font-size: 1.5rem;
 }
 
-.sendMessage img {
+.sendMessage img,
+.choseRequests img {
   height: 2rem;
   padding: 0.5rem;
   box-sizing: content-box;
@@ -115,27 +140,29 @@
 }
 
 .sendMessage img:hover,
-.sendMessage img:focus {
+.sendMessage img:focus,
+.choseRequests img:hover,
+.choseRequests img:focus {
   transform: scale(1.1);
   background-color: rgb(255, 255, 255, 0.2);
 }
 
-.sendMessage img:active {
+.sendMessage img:active,
+.choseRequests img:active {
   transform: scale(0.95);
   background-color: rgb(255, 255, 255, 0.3);
 }
 
 .loadOldMessagesBtn {
-  background-color: transparent;
+  flex: auto;
   color: white;
   font-size: large;
   background-color: rgb(26 32 44);
   box-shadow: 0 0 5px 0;
   cursor: pointer;
   border: 2px solid rgb(26 32 44);
-  border-radius: 10px;
+  border-radius: 5px;
   transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
-  margin-bottom: 1rem;
 }
 
 .loadOldMessagesBtn:hover,
@@ -163,20 +190,88 @@
 }
 
 .optionButton {
-  background-color: rgb(106, 137, 167);
-  color: black;
+  background-color: #4f46e5;
+  color: inherit;
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 5px;
-  transition: transform 0.15s ease, background-color 0.15s ease;
+  border: none;
+  font-size: large;
+  cursor: pointer;
 }
 
 .optionButton:hover,
 .optionButton:focus {
-  background-color: rgb(106, 137, 167, 0.9);
-  transform: scale(1.05);
+  background-color: #3b34c3;
 }
 
 .nameSearch {
   margin-bottom: 1rem;
+}
+
+.choseRequests {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.choseRequests button {
+  flex: 1;
+  background-color: rgb(26 32 44);
+  color: #5865f2;
+  font-size: larger;
+  cursor: pointer;
+  border: none;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.choseRequests button:hover {
+  box-shadow: 0 1px 0 0 white;
+}
+
+.choseRequests button.active {
+  box-shadow: 0 2px 0 0 #5865f2;
+}
+
+.choseRequests img {
+  height: 2rem;
+  margin-left: 0.5rem;
+}
+
+.singleChat {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  gap: 0.2rem;
+  text-align: start;
+  position: relative;
+  min-width: 100px;
+  font-size: large;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+  justify-content: center;
+}
+
+.singleChat .avatars {
+  display: flex;
+  flex-wrap: nowrap; 
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 2px 0;
+  align-items: center;
+}
+
+.singleChat:hover,
+.singleChat:focus {
+  background-color: rgb(255, 255, 255, 0.2);
+}
+
+.messagingOptions {
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  gap: 1rem;
 }

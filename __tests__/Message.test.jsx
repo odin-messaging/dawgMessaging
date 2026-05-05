@@ -27,19 +27,19 @@ describe('Message component', () => {
 
   it('loads the initial conversation, then loads older messages and newer messages correctly', async () => {
     const initialMessages = [
-      { id: '4', message: 'latest message', senderId: 1 },
-      { id: '3', message: 'recent message', senderId: 2 },
+      { id: '4', message: 'latest message', sender: { id: 1, username: 'user1', avatar: { style: 'adventurer', seed: 'seed1' } } },
+      { id: '3', message: 'recent message', sender: { id: 2, username: 'user2', avatar: { style: 'lorelei', seed: 'seed2' } } },
     ]
 
     const olderMessages = [
-      { id: '2', message: 'older message', senderId: 2 },
-      { id: '1', message: 'oldest message', senderId: 1 },
+      { id: '2', message: 'older message', sender: { id: 2, username: 'user2', avatar: { style: 'lorelei', seed: 'seed2' } } },
+      { id: '1', message: 'oldest message', sender: { id: 1, username: 'user1', avatar: { style: 'adventurer', seed: 'seed1' } } },
     ]
 
     const newMessages = [
-      { id: '5', message: 'new message1', senderId: 2 },
-      { id: '6', message: 'new message2', senderId: 2 },
-      { id: '7', message: 'new message3', senderId: 2 },
+      { id: '5', message: 'new message1', sender: { id: 2, username: 'user2', avatar: { style: 'lorelei', seed: 'seed2' } } },
+      { id: '6', message: 'new message2', sender: { id: 2, username: 'user2', avatar: { style: 'lorelei', seed: 'seed2' } } },
+      { id: '7', message: 'new message3', sender: { id: 2, username: 'user2', avatar: { style: 'lorelei', seed: 'seed2' } } },
     ]
 
     getConversation

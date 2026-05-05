@@ -17,8 +17,11 @@ const SendFriendRequest = () => {
     const loadUsersThatAreNotFriends = async () => {
       try {
         const users = await getAllOtherUsersThatAreNotFriends()
-        setUserList(users)
-        console.log(users)
+        if (!users) {
+          setError('Users not loaded!')
+        } else {
+          setUserList(users)
+        }
       } catch (err) {
         console.log(err)
         setError(err)
@@ -33,17 +36,24 @@ const SendFriendRequest = () => {
 
   useEffect(() => {
     if (!userList || userList.length === 0) return
-    // if (nameSearch.trim() === '') {
-    //   setDisplayedUsers([])
-    //   return
-    // }
     setLoading(true)
     const filteredUserNames = userList.filter((user) => user.username.toLowerCase().includes(nameSearch.toLowerCase()))
     setDisplayedUsers(filteredUserNames)
     setLoading(false)
   }, [nameSearch, userList])
 
-
+  const updateList = async (friendId) => {
+    try {
+      setLoading(true)
+      await sendFriendRequest(friendId)
+    } catch (error) {
+      console.log(error)
+      setError(error)
+    } finally {
+      setUserList(await getAllOtherUsersThatAreNotFriends())
+      setLoading(false)
+    }
+  }
 
   return (
     <>
@@ -62,7 +72,7 @@ const SendFriendRequest = () => {
           {displayedUsers && <DisplayUsers
             dropdown={[
               { title: 'View Profile', href: `/profile` },
-              { title: 'Send Friend Request', action: sendFriendRequest }
+              { title: 'Send Friend Request', action: updateList }
             ]}
             users={displayedUsers} />}
         </>

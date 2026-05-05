@@ -1,29 +1,78 @@
-import { useEffect } from "react"
+import { useEffect, useRef, useCallback } from "react";
+import { useAuth } from "./AuthContext";
 
-export function useOnlineHeartbeat(interval = 15000) {
+export function useOnlineHeartbeat(heartBeatFunction) {
+  const { user, loading } = useAuth()
+  const interval = 1000 * 60 * 1 // 1 minute
+  const intervalRef = useRef(null)
+  const heartbeatRef = useRef(heartBeatFunction)
+  const userRef = useRef(user)
+
+  // Keep latest values in refs (avoids stale closures)
   useEffect(() => {
-    const ping = () => {
-      fetch("/api/ping", {
-        method: "POST",
-        credentials: "include",
+    heartbeatRef.current = heartBeatFunction;
+  }, [heartBeatFunction])
+
+  useEffect(() => {
+    userRef.current = user
+  }, [user])
+
+  const safeHeartbeat = useCallback(() => {
+    const fn = heartbeatRef.current;
+    if (!fn) return
+
+    console.log('running heartbeat')
+
+    Promise.resolve()
+      .then(() => fn())
+      .catch(err => {
+        console.debug("heartbeat failed", err);
       })
+  }, [])
+
+  const startHeartbeat = useCallback(() => {
+    if (intervalRef.current) return // already running
+
+    safeHeartbeat()
+
+    intervalRef.current = setInterval(safeHeartbeat, interval)
+  }, [safeHeartbeat, interval])
+
+  const stopHeartbeat = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current)
+      intervalRef.current = null
     }
+  }, []);
 
-    ping()
+  useEffect(() => {
+    if (loading) return
 
-    const id = setInterval(ping, interval);
+    const handleVisibility = () => {
+      const shouldRun = document.visibilityState === "visible" && !!userRef.current
 
-    const onVisible = () => {
-      if (document.visibilityState === "visible") {
-        ping()
+      if (shouldRun) {
+        startHeartbeat()
+      } else {
+        stopHeartbeat()
       }
     }
 
-    document.addEventListener("visibilitychange", onVisible);
+    // Initial setup
+    handleVisibility()
+
+    document.addEventListener("visibilitychange", handleVisibility)
 
     return () => {
-      clearInterval(id)
-      document.removeEventListener("visibilitychange", onVisible);
+      document.removeEventListener("visibilitychange", handleVisibility)
+      stopHeartbeat()
     }
-  }, [interval])
+  }, [loading, startHeartbeat, stopHeartbeat])
+
+  // Cleanup on unmount / user logout
+  useEffect(() => {
+    if (!user) {
+      stopHeartbeat()
+    }
+  }, [user, stopHeartbeat])
 }

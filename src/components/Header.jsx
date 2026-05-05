@@ -6,6 +6,7 @@ import { lorelei, adventurer, bottts, rings } from '@dicebear/collection'
 import { createAvatar } from '@dicebear/core'
 import Dropdown from './Dropdown'
 import { useState } from 'react'
+import DisplayAvatar from './DisplayAvatar'
 
 // link format {
 // title
@@ -31,7 +32,13 @@ const Header = ({ links }) => {
           )}
 
           {isAuthenticated ?
-            <div className='profileContainer'>
+            <div
+              onBlur={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget)) {
+                  setOpenDropdown(false)
+                }
+              }}
+              className='profileContainer'>
               <img
                 tabIndex={0}
                 className="headerAvatar"

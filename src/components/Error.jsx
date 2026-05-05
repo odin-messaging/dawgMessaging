@@ -1,4 +1,3 @@
-import { use, useEffect } from "react"
 
 // err props expect an []
 const Error = ({ errors }) => {

@@ -6,13 +6,14 @@ import { useAuth } from "./components/AuthContext"
 import { NotFound } from "./pages/NotFound"
 import Profile from "./pages/Profile"
 import EditProfile from "./pages/EditProfile"
-import ChoseFriendToMessage from "./pages/partials/ChoseFriendToMessage"
+import ChoseFriendToMessage from "./pages/partials/ChoseChatToMessage"
 import MainPageDefaultOutlet from "./pages/partials/mainPageDefaultOutlet"
 import Message from "./pages/partials/Message"
 import ViewFriends from "./pages/partials/ViewFriends"
 import ViewFriendDetails from "./pages/partials/ViewFriendDetails"
 import SendFriendRequest from "./pages/partials/SendFriendRequest"
-import AlertPopup from "./components/AlertPopup"
+import ViewFriendRequests from "./pages/partials/ViewFriendRequests"
+import ChoseFriendToAddToChat from "./pages/partials/ChoseFriendToAddToChat"
 
 function ProtectedRoute() {
   const { isAuthenticated, loading } = useAuth()
@@ -45,11 +46,13 @@ const routes = [
           { path: "/", element: <MainPageDefaultOutlet /> },
           { path: "/message", element: <ChoseFriendToMessage /> },
           { path: "/friends", element: <ViewFriends /> },
-          { path: "/friends/:id", element: <ViewFriendDetails /> },
-          { path: "/message/:id", element: <Message /> },
-          { path: "/profile/:id", element: <Profile /> },
           { path: "/friends/request", element: <SendFriendRequest /> },
+          { path: "/friends/requests", element: <ViewFriendRequests /> },
+          { path: '/friends/chat/add/:id', element: <ChoseFriendToAddToChat /> },
           { path: "/profile/edit", element: <EditProfile /> },
+          { path: "/users/friends/chats/:id", element: <Message /> },
+          { path: "/friends/:id", element: <ViewFriendDetails /> },
+          { path: "/profile/:id", element: <Profile /> },
         ]
       },
     ],

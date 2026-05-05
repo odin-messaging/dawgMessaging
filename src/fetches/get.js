@@ -31,7 +31,22 @@ const getProfile = async (id) => {
 }
 
 const getAllOtherUsers = async () => {
-  return fetch(`${baseUrl}/users`, {
+  const res = await fetch(`${baseUrl}/users`, {
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  })
+
+  if (!res.ok) {
+    throw new Error(`HTTP error: ${res.status}`)
+  }
+
+  return await res.json()
+}
+
+const getAllFriendRequests = async () => {
+  return fetch(`${baseUrl}/users/friends/requests`, {
     headers: {
       ...headers,
       Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -52,6 +67,17 @@ const getAllOtherUsersThatAreNotFriends = async () => {
     .catch((err) => console.log(err))
 }
 
+const sendAllFriendsNotInGroupChat = async (chatId) => {
+  return fetch(`${baseUrl}/users/friends/not-in-chat/${chatId}`, {
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err))
+}
+
 const getFriends = async () => {
   return fetch(`${baseUrl}/users/friends`, {
     headers: {
@@ -63,8 +89,8 @@ const getFriends = async () => {
     .catch((err) => console.log(err))
 }
 
-const getConversation = async (friendId, lastMessageId, direction) => {
-  let url = `${baseUrl}/users/friends/message/${friendId}`
+const getConversation = async (chatId, lastMessageId, direction) => {
+  let url = `${baseUrl}/users/friends/message/${chatId}`
 
   if (lastMessageId && direction) {
     url += `?lastMessageId=${lastMessageId}&direction=${direction}`
@@ -84,6 +110,17 @@ const getConversation = async (friendId, lastMessageId, direction) => {
     .catch((err) => console.log(err))
 }
 
+const getUserChats = async () => {
+  return fetch(`${baseUrl}/users/friends/chats`, {
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err))
+}
+
 export {
   getMainPage,
   getUser,
@@ -92,4 +129,7 @@ export {
   getFriends,
   getConversation,
   getAllOtherUsersThatAreNotFriends,
+  getAllFriendRequests,
+  getUserChats,
+  sendAllFriendsNotInGroupChat
 }

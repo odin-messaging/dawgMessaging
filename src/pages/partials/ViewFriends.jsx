@@ -2,18 +2,14 @@ import '../../css/partials.css'
 import PartialInfoTopPanel from './partialInfoTopPanel'
 import { useEffect, useState } from 'react'
 import { getFriends } from '../../fetches/get'
-import { lorelei, adventurer, bottts, rings } from '@dicebear/collection'
-import { createAvatar } from '@dicebear/core'
 import LoadingSpinner from '../../components/LoadingSpinner'
 import { Link } from 'react-router-dom'
-import { isWithinTenMinutes } from '../../components/checkOnlineStatus'
 import DisplayUsers from '../../components/DisplayUsers'
 
 const ViewFriends = () => {
   const [friends, setFriends] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
-  const AVATAR_STYLES = { adventurer, lorelei, bottts, rings }
 
   useEffect(() => {
     setLoading(true)

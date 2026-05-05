@@ -1,9 +1,9 @@
-const url = import.meta.env.VITE_BASE_URL
+const baseUrl = import.meta.env.VITE_BASE_URL
 const headers = { 'Content-Type': 'application/json' }
 
 const login = async (username, password) => {
   try {
-    const res = await fetch(`${url}/auth/login`, {
+    const res = await fetch(`${baseUrl}/auth/login`, {
       method: 'POST',
       headers,
       body: JSON.stringify({ username, password })
@@ -23,7 +23,7 @@ const login = async (username, password) => {
 
 const signup = async (username, password) => {
   try {
-    const res = await fetch(`${url}/auth/signup`, {
+    const res = await fetch(`${baseUrl}/auth/signup`, {
       method: 'POST',
       headers,
       body: JSON.stringify({ username, password })
@@ -46,7 +46,7 @@ const signup = async (username, password) => {
 
 const sendMessage = async (message, receiverId) => {
   try {
-    const res = await fetch(`${url}/users/friends/message/${receiverId}`, {
+    const res = await fetch(`${baseUrl}/users/friends/message/${receiverId}`, {
       method: 'POST',
       headers: {
         ...headers,
@@ -68,7 +68,7 @@ const sendMessage = async (message, receiverId) => {
 
 const sendFriendRequest = async (friendId) => {
     try {
-    const res = await fetch(`${url}/users/friends/request/${friendId}`, {
+    const res = await fetch(`${baseUrl}/users/friends/request/${friendId}`, {
       method: 'POST',
       headers: {
         ...headers,
@@ -87,9 +87,22 @@ const sendFriendRequest = async (friendId) => {
   }
 }
 
+const acceptFriendRequest = async (friendId) => {
+  return fetch(`${baseUrl}/users/friends/requests/${friendId}`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err))
+}
+
 export {
   login,
   signup,
   sendMessage,
   sendFriendRequest,
+  acceptFriendRequest,
 }

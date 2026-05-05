@@ -1,14 +1,12 @@
 import { useState } from "react"
 import Dropdown from "./Dropdown"
-import { lorelei, adventurer, bottts, rings } from '@dicebear/collection'
-import { createAvatar } from '@dicebear/core'
 import { isWithinTenMinutes } from "./checkOnlineStatus"
 import { Link } from "react-router-dom"
+import DisplayAvatar from "./DisplayAvatar"
 
-// Seperating User to it's own component so each user can have their own dropdown
 const UserWithDropDown = ({ user, dropdown }) => {
+  if (!user) return
   const [openDropdown, setOpenDropdown] = useState(false)
-  const AVATAR_STYLES = { adventurer, lorelei, bottts, rings }
 
   const editedDropdown = dropdown.map((item) => {
     if (item.href) {
@@ -30,6 +28,11 @@ const UserWithDropDown = ({ user, dropdown }) => {
   return (
     <div
       tabIndex={0}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) {
+          setOpenDropdown(false)
+        }
+      }}
       onClick={() => setOpenDropdown(prev => !prev)}
       className={`${openDropdown ? 'activeListedUser' : ''} listedUser`}
       onKeyDown={(e) => {
@@ -42,12 +45,7 @@ const UserWithDropDown = ({ user, dropdown }) => {
         <div className="onlineStatusSmall online"></div>
         :
         <div className="onlineStatusSmall offline"></div>}
-      <img
-        className="listedUserAvatar"
-        src={createAvatar(AVATAR_STYLES[user.avatar.style],
-          { seed: user.avatar.seed, size: 128 }).toDataUri()}
-        alt="User Avatar"
-      />
+      <DisplayAvatar style={user.avatar.style} seed={user.avatar.seed} className='listedUserAvatar' />
       <div>{user.username}</div>
 
       {openDropdown && <Dropdown links={editedDropdown} />}
@@ -56,8 +54,6 @@ const UserWithDropDown = ({ user, dropdown }) => {
 }
 
 const UserWithLink = ({ user, link }) => {
-  const AVATAR_STYLES = { adventurer, lorelei, bottts, rings }
-
   const linkUrl = link + '/' + user.id
 
   return (
@@ -75,27 +71,45 @@ const UserWithLink = ({ user, link }) => {
         <div className="onlineStatusSmall online"></div>
         :
         <div className="onlineStatusSmall offline"></div>}
-      <img
-        className="listedUserAvatar"
-        src={createAvatar(AVATAR_STYLES[user.avatar.style],
-          { seed: user.avatar.seed, size: 128 }).toDataUri()}
-        alt="User Avatar"
-      />
+      <DisplayAvatar style={user.avatar.style} seed={user.avatar.seed} className='listedUserAvatar' />
       <div>{user.username}</div>
     </Link>
   )
 }
 
+const UserWithAction = ({ user, action }) => {
+  return (
+    <div
+      onClick={() => action(user.id)}
+      tabIndex={0}
+      className={'listedUser'}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          e.target.click()
+        }
+      }}
+    >
+      {isWithinTenMinutes(user.lastSeen) ?
+        <div className="onlineStatusSmall online"></div>
+        :
+        <div className="onlineStatusSmall offline"></div>}
+      <DisplayAvatar style={user.avatar.style} seed={user.avatar.seed} className='listedUserAvatar' />
+      <div>{user.username}</div>
+    </div>
+  )
+}
+
 // arr of users in obj form
-const DisplayUsers = ({ users, dropdown, link }) => {
+const DisplayUsers = ({ users, dropdown, action, link }) => {
 
   return (
     <div className="friendGrid">
-      {users.map((user) => (
+      {users && users.map((user) => (
         <div key={user.id}>
           {dropdown ? <UserWithDropDown dropdown={dropdown} user={user} /> :
             link ? <UserWithLink user={user} link={link} /> :
-              <div>No Props passed!</div>}
+              action ? <UserWithAction user={user} action={action} /> :
+                <div>No Props passed!</div>}
         </div>
       ))}
     </div>

@@ -24,7 +24,7 @@ const MainPageDefaultOutlet = () => {
           Message
         </Link>
 
-        <Link className='optionCard'>
+        <Link to='/friends/requests' className='optionCard'>
           <img className='icon' src={requests} alt="" />
           Friend Requests
         </Link>

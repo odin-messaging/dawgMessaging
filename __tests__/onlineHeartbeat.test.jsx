@@ -3,6 +3,10 @@ import { render } from '@testing-library/react'
 import React from 'react'
 import { useOnlineHeartbeat } from '../src/components/onlineHeartbeat'
 
+vi.mock('../src/components/AuthContext.jsx', () => ({
+  useAuth: () => ({ user: { id: 1 }, loading: false }),
+}))
+
 // useFakeTimers so we can advance intervals
 vi.useFakeTimers()
 
@@ -16,12 +20,15 @@ describe('useOnlineHeartbeat hook', () => {
   })
 
   const TestComponent = ({ interval }) => {
-    useOnlineHeartbeat(interval)
+    useOnlineHeartbeat(() => global.fetch())
     return null
   }
 
-  it('calls fetch immediately and on interval and when document becomes visible', () => {
+  it('calls fetch immediately and on interval and when document becomes visible', async () => {
     render(<TestComponent interval={1000} />)
+
+    // flush microtasks
+    await new Promise(resolve => setTimeout(resolve, 0))
 
     // initial ping
     expect(global.fetch).toHaveBeenCalledTimes(1)
