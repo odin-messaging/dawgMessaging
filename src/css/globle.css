@@ -22,6 +22,16 @@ body {
   box-sizing: border-box;
 }
 
+hr {
+  width: 100%;
+  border: 1px solid rgb(88, 88, 88);
+}
+
+p {
+  font-size: large;
+  text-align: center;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -238,4 +248,24 @@ img.listedUserAvatar.chatListAvatar {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.spaceApartFlex {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  position: relative;
+}
+
+.infoContainer {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: help;
+}
+
+.spaceApartFlex img {
+  height: 1rem;
 }

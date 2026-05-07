@@ -86,17 +86,24 @@
   width: 100%;
 }
 
+.messageWrapper .flex {
+  justify-content: start;
+  align-items: end;
+}
+
 .messageWrapper.sent {
   align-self: flex-end;
 }
 
 .messageWrapper.sent .flex {
   flex-direction: row-reverse;
+  justify-content: end;
 }
 
 .message {
   padding: 0.5rem 1rem;
   font-family: Georgia, 'Times New Roman', Times, serif;
+  word-break: break-all;
 }
 
 .message.received {
@@ -257,7 +264,7 @@
 
 .singleChat .avatars {
   display: flex;
-  flex-wrap: nowrap; 
+  flex-wrap: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
   padding: 2px 0;
@@ -270,8 +277,26 @@
 }
 
 .messagingOptions {
+  justify-content: end;
   display: flex;
   width: 100%;
   height: fit-content;
   gap: 1rem;
+}
+
+.viewUsersInChat {
+  display: flex;
+  align-items: center;
+  padding: 0.2rem;
+  max-width: 200px;
+  min-width: 0;
+}
+
+.viewUsersInChat span {
+  word-break: break-all;
+  white-space: normal;
+}
+
+.viewUsersInChat img {
+  height: 2rem;
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { useAuth } from "../components/AuthContext"
-import { isWithinTenMinutes } from "../components/checkOnlineStatus"
+import isWithinThreeMinutes from "../components/checkOnlineStatus"
 import '../css/profile.css'
 import { lorelei, adventurer, bottts, rings } from '@dicebear/collection'
 import { createAvatar } from '@dicebear/core'
@@ -28,7 +28,7 @@ const ProfileUI = ({ profile, loading }) => {
               />
               <div>{profile.username}</div>
             </div>
-            <div className="flexColumn">{isWithinTenMinutes(profile.lastSeen) ?
+            <div className="flexColumn">{isWithinThreeMinutes(profile.lastSeen) ?
               <div className="flex"><span>Online</span><div className="onlineStatus online"></div></div>
               :
               <div className="flex"><span>Offline</span><div className="onlineStatus offline"></div></div>}

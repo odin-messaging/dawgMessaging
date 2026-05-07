@@ -65,7 +65,17 @@ const ViewFriendRequests = () => {
       <div className="choseRequests">
         <button onClick={() => setShowMyMessages(true)} className={`${showMyMessages ? 'active' : ''}`}>Sent</button>
         <button onClick={() => setShowMyMessages(false)} className={`${showMyMessages ? '' : 'active'}`}>Received</button>
-        <img src={refreshIcon} onClick={() => setReloadRequests((prev) => !prev)} alt="Refresh Requests" />
+        <img
+          src={refreshIcon}
+          onClick={() => setReloadRequests((prev) => !prev)}
+          alt="Refresh Requests"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key == 'Enter') {
+              e.target.click()
+            }
+          }}
+        />
       </div>
       <div className='optionButtons'>
         <Link to={`/friends/request`} className='optionButton'>Send Friend Request</Link>

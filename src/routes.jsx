@@ -14,6 +14,7 @@ import ViewFriendDetails from "./pages/partials/ViewFriendDetails"
 import SendFriendRequest from "./pages/partials/SendFriendRequest"
 import ViewFriendRequests from "./pages/partials/ViewFriendRequests"
 import ChoseFriendToAddToChat from "./pages/partials/ChoseFriendToAddToChat"
+import CreateNewGroupChat from "./pages/partials/CreateNewGroupChat"
 
 function ProtectedRoute() {
   const { isAuthenticated, loading } = useAuth()
@@ -50,6 +51,7 @@ const routes = [
           { path: "/friends/requests", element: <ViewFriendRequests /> },
           { path: '/friends/chat/add/:id', element: <ChoseFriendToAddToChat /> },
           { path: "/profile/edit", element: <EditProfile /> },
+          { path: "/users/friends/chats/create", element: <CreateNewGroupChat /> },
           { path: "/users/friends/chats/:id", element: <Message /> },
           { path: "/friends/:id", element: <ViewFriendDetails /> },
           { path: "/profile/:id", element: <Profile /> },

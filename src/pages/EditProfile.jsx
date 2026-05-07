@@ -2,7 +2,7 @@ import Header from "../components/Header"
 import { useEffect, useState } from "react"
 import { useAuth } from "../components/AuthContext"
 import { Link } from "react-router-dom"
-import { isWithinTenMinutes } from "../components/checkOnlineStatus"
+import isWithinThreeMinutes from "../components/checkOnlineStatus"
 import '../css/profile.css'
 import AvatarPicker from "../components/choseAvatar"
 import { createAvatar } from '@dicebear/core'
@@ -79,7 +79,7 @@ const EditProfile = () => {
                   onChange={(e) => setEditedUser({ ...editedUser, username: e.target.value })}>
                 </input>
               </div>
-              <div>{isWithinTenMinutes(user.lastSeen) ?
+              <div>{isWithinThreeMinutes(user.lastSeen) ?
                 <div className="flex"><span>Online</span><div className="onlineStatus online"></div></div>
                 :
                 <div className="flex"><span>Offline</span><div className="onlineStatus offline"></div></div>}</div>

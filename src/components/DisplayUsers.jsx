@@ -1,6 +1,6 @@
 import { useState } from "react"
 import Dropdown from "./Dropdown"
-import { isWithinTenMinutes } from "./checkOnlineStatus"
+import isWithinThreeMinutes from "./checkOnlineStatus"
 import { Link } from "react-router-dom"
 import DisplayAvatar from "./DisplayAvatar"
 
@@ -41,7 +41,7 @@ const UserWithDropDown = ({ user, dropdown }) => {
         }
       }}
     >
-      {isWithinTenMinutes(user.lastSeen) ?
+      {isWithinThreeMinutes(user.lastSeen) ?
         <div className="onlineStatusSmall online"></div>
         :
         <div className="onlineStatusSmall offline"></div>}
@@ -67,7 +67,7 @@ const UserWithLink = ({ user, link }) => {
         }
       }}
     >
-      {isWithinTenMinutes(user.lastSeen) ?
+      {isWithinThreeMinutes(user.lastSeen) ?
         <div className="onlineStatusSmall online"></div>
         :
         <div className="onlineStatusSmall offline"></div>}
@@ -89,7 +89,20 @@ const UserWithAction = ({ user, action }) => {
         }
       }}
     >
-      {isWithinTenMinutes(user.lastSeen) ?
+      {isWithinThreeMinutes(user.lastSeen) ?
+        <div className="onlineStatusSmall online"></div>
+        :
+        <div className="onlineStatusSmall offline"></div>}
+      <DisplayAvatar style={user.avatar.style} seed={user.avatar.seed} className='listedUserAvatar' />
+      <div>{user.username}</div>
+    </div>
+  )
+}
+
+const User = ({ user }) => {
+  return (
+    <div className={'listedUser'}>
+      {isWithinThreeMinutes(user.lastSeen) ?
         <div className="onlineStatusSmall online"></div>
         :
         <div className="onlineStatusSmall offline"></div>}
@@ -100,7 +113,7 @@ const UserWithAction = ({ user, action }) => {
 }
 
 // arr of users in obj form
-const DisplayUsers = ({ users, dropdown, action, link }) => {
+const DisplayUsers = ({ users, dropdown, action, link, plainUser }) => {
 
   return (
     <div className="friendGrid">
@@ -109,7 +122,8 @@ const DisplayUsers = ({ users, dropdown, action, link }) => {
           {dropdown ? <UserWithDropDown dropdown={dropdown} user={user} /> :
             link ? <UserWithLink user={user} link={link} /> :
               action ? <UserWithAction user={user} action={action} /> :
-                <div>No Props passed!</div>}
+                plainUser ? <User user={user} /> :
+                  <div>No Props passed!</div>}
         </div>
       ))}
     </div>

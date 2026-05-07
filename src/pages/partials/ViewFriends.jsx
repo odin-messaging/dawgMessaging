@@ -42,7 +42,7 @@ const ViewFriends = () => {
         </div>
         {error && <div>{error}</div>}
         {loading && <LoadingSpinner />}
-        {friends && friends.length === 0 && <div>You have no friends yet, go out and make some!</div>}
+        {friends && friends.length === 0 && <p>You have no friends yet, go out and make some!</p>}
 
 
         {friends && !loading && friends.length > 0 &&

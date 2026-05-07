@@ -20,6 +20,10 @@
   font-size: larger;
 }
 
+.profileBottom {
+  word-break: break-all;
+}
+
 .blurb {
   width: 100%;
   min-height: 300px;

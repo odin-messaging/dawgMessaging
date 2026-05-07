@@ -62,7 +62,33 @@ const ping = async () => {
   return
 }
 
+const leaveGroupChat = async (chatId) => {
+  try {
+    const res = await fetch(`${baseUrl}/users/friends/chats/${chatId}`, {
+      method: 'PATCH',
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+
+    const data = await res.json()
+
+    if (data.error) console.log(data.error)
+
+    if (!res.ok) {
+      console.log('throwing')
+      throw new Error(data.error)
+    }
+
+    return data
+  } catch (err) {
+    throw new Error(err.message || 'Network error')
+  }
+}
+
 export {
   updateUser,
-  ping
+  ping,
+  leaveGroupChat
 }

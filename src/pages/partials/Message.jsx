@@ -10,6 +10,10 @@ import '../../css/partials.css'
 import LoadingSpinner from "../../components/LoadingSpinner"
 import DisplayAvatar from "../../components/DisplayAvatar"
 import { Link } from "react-router-dom"
+import { leaveGroupChat } from "../../fetches/patch"
+import { useNavigate } from "react-router-dom"
+
+
 
 const SendMessage = ({ recipientId, setLoadNew }) => {
   const [message, setMessage] = useState("")
@@ -76,6 +80,7 @@ const Message = () => {
   const [loadOld, setLoadOld] = useState(false)
   const [lastMessageId, setLastMessageId] = useState(null)
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!conversation) return
@@ -138,7 +143,26 @@ const Message = () => {
             <div className="messagingOptions">
               <button className="loadOldMessagesBtn" onClick={() => setLoadOld((prev => !prev))}>load more</button>
               <Link to={`/friends/chat/add/${id}`} className="optionButton">Add Friend To Chat</Link>
+              <button
+                className="optionButton"
+                onClick={async () => {
+                  try {
+                    setLoading(true)
+                    await leaveGroupChat(id)
+                    
+                    navigate('/')
+                  } catch (err) {
+                    setError(err)
+                    console.log(err)
+                  } finally {
+                    setLoading(false)
+                  }
+                }}
+              >
+                Leave Chat
+              </button>
             </div>
+            <hr />
             {conversation.map(message => (
               <RenderSingleMessage key={message.id} message={message} id={user.id} />
             ))}
@@ -163,7 +187,13 @@ const RenderSingleMessage = ({ message, id }) => {
         <span className="username">@{message.sender.username}</span>
       </div>}
       <div className="flex">
-        <DisplayAvatar key={message.sender.id} style={message.sender.avatar.style} seed={message.sender.avatar.seed} className='listedUserAvatar chatListAvatar' />
+        {message.sender.id !== id &&
+          <DisplayAvatar
+            key={message.sender.id}
+            style={message.sender.avatar.style}
+            seed={message.sender.avatar.seed}
+            className='listedUserAvatar chatListAvatar'
+          />}
         <div className={`message ${message.sender.id == id ? 'sent' : 'received'}`}>
           <span className="text">{message.message}</span>
         </div>

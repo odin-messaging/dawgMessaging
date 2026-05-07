@@ -1,23 +1,24 @@
-import { useState, useEffect, useCallback } from 'react'
-import { useOnlineHeartbeat } from '../components/onlineHeartbeat'
+import { useState } from 'react'
+import { useOnlineHeartbeat } from '../components/useOnlineHeartbeat'
 import '../css/globle.css'
 import '../css/dropdown.css'
-
 import Header from '../components/Header'
 import { getAllOtherUsers } from '../fetches/get'
 import DisplayUsers from '../components/DisplayUsers'
 import { Outlet } from "react-router-dom"
 import AlertPopup from '../components/AlertPopup'
 import LoadingSpinner from '../components/LoadingSpinner'
-import { ping } from '../fetches/patch'
 
 const App = () => {
   const [otherUsers, setOtherUsers] = useState(null)
   const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
+  useOnlineHeartbeat(() => load())
 
-  const load = async (showSpinner = true) => {
+  const load = async (showSpinner = false) => {// false = don't show spinner
     if (showSpinner) setLoading(true)
+
+    // console.log('hitting load')
 
     try {
       const users = await getAllOtherUsers()
@@ -28,24 +29,9 @@ const App = () => {
       setError(err)
     } finally {
       if (showSpinner) setLoading(false)
+      // console.log('ending load')
     }
   }
-
-  useEffect(() => {
-    ping
-    load(true)
-  }, [])
-
-  const heartBeatFunction = useCallback(async () => {
-    try {
-      await ping()
-      await load(false)  // false = don't show spinner
-    } catch (err) {
-      console.debug("Heartbeat failed", err)
-    }
-  }, [])
-
-  useOnlineHeartbeat(heartBeatFunction)
 
   return (
     <div className="appWrapper">
@@ -61,7 +47,8 @@ const App = () => {
               <div className="legend">Users</div>
               <hr />
               {loading && <LoadingSpinner />}
-              {!loading && (
+              {otherUsers.length == 0 && <p>There are no other users!</p>}
+              {!loading && otherUsers.length > 0 && (
                 <DisplayUsers
                   dropdown={[{ title: 'View Profile', href: `/profile` }]}
                   users={otherUsers}

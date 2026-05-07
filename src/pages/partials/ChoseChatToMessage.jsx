@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react'
 import LoadingSpinner from '../../components/LoadingSpinner'
 import DisplayChats from '../../components/DisplayChats'
 import { getUserChats } from '../../fetches/get'
+import { Link } from 'react-router-dom'
 
-const ChoseFriendToMessage = () => {
+const ChoseChatToMessage = () => {
   const [chats, setChats] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(null)
@@ -34,8 +35,11 @@ const ChoseFriendToMessage = () => {
   return (
     <>
       <PartialInfoTopPanel />
+      <div className="optionButtons">
+        <Link to='/users/friends/chats/create' className="optionButton">Create new chat</Link>
+      </div>
       {error && <div>{error}</div>}
-      {chats && chats.length === 0 && <div>You have no chats yet, go make some!</div>}
+      {chats && chats.length === 0 && <p>You have no chats yet, go make some!</p>}
       {loading && <LoadingSpinner />}
 
       {chats && !loading && chats.length > 0 &&
@@ -45,4 +49,4 @@ const ChoseFriendToMessage = () => {
   )
 }
 
-export default ChoseFriendToMessage
+export default ChoseChatToMessage

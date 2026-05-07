@@ -1,4 +1,4 @@
-const isWithinTenMinutes = (timestamp) => {
+const isWithinThreeMinutes = (timestamp) => {
   if (!timestamp) return false
 
 
@@ -12,9 +12,7 @@ const isWithinTenMinutes = (timestamp) => {
 
   const diff = Date.now() - date.getTime()
 
-  return diff >= 0 && diff <= 10 * 60 * 1000
+  return diff >= 0 && diff <= 3 * 60 * 1000 // three min
 }
 
-export {
-  isWithinTenMinutes
-}
+export default isWithinThreeMinutes

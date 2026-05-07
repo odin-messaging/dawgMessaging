@@ -15,7 +15,7 @@ const login = async (username, password) => {
       throw new Error(data.error || 'Login failed')
     }
 
-    return data 
+    return data
   } catch (err) {
     throw new Error(err.message || 'Network error')
   }
@@ -54,7 +54,7 @@ const sendMessage = async (message, receiverId) => {
       },
       body: JSON.stringify({ message })
     })
-    
+
     const data = await res.json()
     if (!res.ok) {
       throw new Error(data.error || 'Failed to send message')
@@ -67,7 +67,7 @@ const sendMessage = async (message, receiverId) => {
 }
 
 const sendFriendRequest = async (friendId) => {
-    try {
+  try {
     const res = await fetch(`${baseUrl}/users/friends/request/${friendId}`, {
       method: 'POST',
       headers: {
@@ -75,7 +75,7 @@ const sendFriendRequest = async (friendId) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`
       }
     })
-    
+
     const data = await res.json()
     if (!res.ok) {
       throw new Error(data.error || 'Failed to send request')
@@ -99,10 +99,56 @@ const acceptFriendRequest = async (friendId) => {
     .catch((err) => console.log(err))
 }
 
+const addFriendToGroupChat = async (chatId, friendId) => {
+  try {
+    const res = await fetch(`${baseUrl}/users/friends/chats/${chatId}`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+      body: JSON.stringify({ friendId })
+    })
+
+    const data = await res.json()
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to add friend')
+    }
+
+    return data
+  } catch (err) {
+    throw new Error(err.message || 'Network error')
+  }
+}
+
+const createGroupChat = async (userIdPayload) => {
+  try {
+    const res = await fetch(`${baseUrl}/users/friends/chats`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+      body: JSON.stringify({ userIdPayload })
+    })
+
+    const data = await res.json()
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to add friend')
+    }
+
+    return data
+  } catch (err) {
+    throw new Error(err.message || 'Network error')
+  }
+}
+
 export {
   login,
   signup,
   sendMessage,
   sendFriendRequest,
   acceptFriendRequest,
+  addFriendToGroupChat,
+  createGroupChat
 }

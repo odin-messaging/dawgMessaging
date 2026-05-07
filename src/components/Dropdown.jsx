@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { useAlert } from "./AlertContext"
+import DisplayAvatar from "./DisplayAvatar"
 
 const Dropdown = ({ links }) => {
   if (!links || links.length === 0) {
@@ -34,10 +35,12 @@ const Dropdown = ({ links }) => {
   }
 
   return (
-    <div className="openMoreOptions">
+    <div className="openMoreOptions" onClick={(e) => {
+      e.stopPropagation()
+      e.preventDefault()
+    }}>
       {links && links.map((link) => {
         const commonProps = {
-          tabIndex: 0,
           onKeyDown: handleKeyDown,
           className: `dropdown-link ${link.className || ''}`.trim(),
         }
@@ -46,6 +49,7 @@ const Dropdown = ({ links }) => {
           return (
             <div
               {...commonProps}
+              tabIndex={0}
               onClick={() => handleActionClick(link.action)}
               role="button"
               key={link.title}
@@ -56,8 +60,25 @@ const Dropdown = ({ links }) => {
           )
         }
 
+        if (link.avatar) {
+          return (
+            <div
+              {...commonProps}
+              role="button"
+              key={link.title}
+              aria-label={link.title}
+            >
+              <div className="viewUsersInChat">
+                <DisplayAvatar seed={link.avatar.seed} style={link.avatar.style} className='listedUserAvatar' />
+                <span>{link.title}</span>
+              </div>
+            </div>
+          )
+        }
+
         return (
           <Link
+            tabIndex={0}
             {...commonProps}
             to={link.href}
             role="menuitem"

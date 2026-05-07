@@ -1,39 +1,45 @@
-import { useEffect, useRef, useCallback } from "react";
-import { useAuth } from "./AuthContext";
+import { useEffect, useRef, useCallback } from "react"
+import { useAuth } from "./AuthContext"
+import { ping } from '../fetches/patch'
 
-export function useOnlineHeartbeat(heartBeatFunction) {
+const heartBeatFunction = async (callback) => {
+  console.log('running heartbeat')
+  try {
+    await ping()
+    await callback()
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export function useOnlineHeartbeat(callback) {
   const { user, loading } = useAuth()
   const interval = 1000 * 60 * 1 // 1 minute
   const intervalRef = useRef(null)
-  const heartbeatRef = useRef(heartBeatFunction)
+  const heartbeatCallback = useCallback(() => heartBeatFunction(callback), [])
+  const heartbeatRef = useRef(heartbeatCallback)
   const userRef = useRef(user)
 
-  // Keep latest values in refs (avoids stale closures)
   useEffect(() => {
-    heartbeatRef.current = heartBeatFunction;
-  }, [heartBeatFunction])
-
-  useEffect(() => {
+    // heartBeatFunction(callback) // page load call
     userRef.current = user
   }, [user])
 
   const safeHeartbeat = useCallback(() => {
-    const fn = heartbeatRef.current;
+    const fn = heartbeatRef.current
     if (!fn) return
-
-    console.log('running heartbeat')
 
     Promise.resolve()
       .then(() => fn())
       .catch(err => {
-        console.debug("heartbeat failed", err);
+        console.debug("heartbeat failed", err)
       })
   }, [])
 
   const startHeartbeat = useCallback(() => {
-    if (intervalRef.current) return // already running
+    if (intervalRef.current) return
 
-    safeHeartbeat()
+    // safeHeartbeat()
 
     intervalRef.current = setInterval(safeHeartbeat, interval)
   }, [safeHeartbeat, interval])
@@ -43,15 +49,16 @@ export function useOnlineHeartbeat(heartBeatFunction) {
       clearInterval(intervalRef.current)
       intervalRef.current = null
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     if (loading) return
 
-    const handleVisibility = () => {
+    const handleVisibility = async () => {
       const shouldRun = document.visibilityState === "visible" && !!userRef.current
 
       if (shouldRun) {
+        await heartBeatFunction(callback) // page load call
         startHeartbeat()
       } else {
         stopHeartbeat()

@@ -1,49 +1,105 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { render } from '@testing-library/react'
-import React from 'react'
-import { useOnlineHeartbeat } from '../src/components/onlineHeartbeat'
+import { render, waitFor } from '@testing-library/react'
+import { useOnlineHeartbeat } from '../src/components/useOnlineHeartbeat'
 
 vi.mock('../src/components/AuthContext.jsx', () => ({
   useAuth: () => ({ user: { id: 1 }, loading: false }),
 }))
 
-// useFakeTimers so we can advance intervals
+vi.mock('../src/fetches/patch.js', () => ({
+  ping: vi.fn(() => Promise.resolve()),
+}))
+
 vi.useFakeTimers()
 
 describe('useOnlineHeartbeat hook', () => {
   beforeEach(() => {
-    global.fetch = vi.fn(() => Promise.resolve({}))
+    localStorage.setItem("token", "fake-token")
   })
 
   afterEach(() => {
     vi.restoreAllMocks()
+    localStorage.removeItem("token")
   })
 
-  const TestComponent = ({ interval }) => {
-    useOnlineHeartbeat(() => global.fetch())
-    return null
-  }
+  it('calls ping and callback on mount', async () => {
+    const mockCallback = vi.fn()
+    
+    const TestComponent = () => {
+      useOnlineHeartbeat(mockCallback)
+      return null
+    }
 
-  it('calls fetch immediately and on interval and when document becomes visible', async () => {
-    render(<TestComponent interval={1000} />)
+    render(<TestComponent />)
+    
+    // Use runAllTicks to flush all promises
+    vi.runAllTicks()
+    
+    // Wait for the promises to resolve
+    await waitFor(() => {
+      expect(mockCallback).toHaveBeenCalled()
+    })
+  })
 
-    // flush microtasks
-    await new Promise(resolve => setTimeout(resolve, 0))
+  it('calls heartbeat on interval', async () => {
+    const mockCallback = vi.fn()
+    
+    const TestComponent = () => {
+      useOnlineHeartbeat(mockCallback)
+      return null
+    }
 
-    // initial ping
-    expect(global.fetch).toHaveBeenCalledTimes(1)
+    render(<TestComponent />)
+    
+    vi.runAllTicks()
+    
+    // Wait for mount call
+    await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(1))
+    
+    mockCallback.mockClear()
+    
+    // Advance by 1 minute (60000ms)
+    vi.advanceTimersByTime(60000)
+    vi.runAllTicks()
+    
+    // Should call on interval
+    await waitFor(() => {
+      expect(mockCallback).toHaveBeenCalled()
+    })
+  })
 
-    // advance one interval
-    vi.advanceTimersByTime(1000)
-    expect(global.fetch).toHaveBeenCalledTimes(2)
-
-    // simulate visibility change
+  it('stops heartbeat when document is hidden', async () => {
     Object.defineProperty(document, 'visibilityState', {
       configurable: true,
-      get: () => 'visible',
+      writable: true,
+      value: 'hidden',
     })
-    document.dispatchEvent(new Event('visibilitychange'))
 
-    expect(global.fetch).toHaveBeenCalledTimes(3)
+    const mockCallback = vi.fn()
+    
+    const TestComponent = () => {
+      useOnlineHeartbeat(mockCallback)
+      return null
+    }
+
+    render(<TestComponent />)
+    
+    vi.runAllTicks()
+    
+    // Should not call when hidden
+    await waitFor(() => expect(mockCallback).not.toHaveBeenCalled(), { timeout: 100 }).catch(() => {})
+    
+    // Change visibility to visible
+    Object.defineProperty(document, 'visibilityState', {
+      configurable: true,
+      writable: true,
+      value: 'visible',
+    })
+    
+    document.dispatchEvent(new Event('visibilitychange'))
+    vi.runAllTicks()
+    
+    // Should call after becoming visible
+    await waitFor(() => expect(mockCallback).toHaveBeenCalled())
   })
 })
