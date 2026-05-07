@@ -33,9 +33,12 @@ const SendFriendRequest = () => {
     loadUsersThatAreNotFriends()
   }, [])
 
-
   useEffect(() => {
-    if (!userList || userList.length === 0) return
+    if (!userList || userList.length === 0) {
+      setDisplayedUsers([])
+      setLoading(false)
+      return
+    }
     setLoading(true)
     const filteredUserNames = userList.filter((user) => user.username.toLowerCase().includes(nameSearch.toLowerCase()))
     setDisplayedUsers(filteredUserNames)
@@ -50,7 +53,8 @@ const SendFriendRequest = () => {
       console.log(error)
       setError(error)
     } finally {
-      setUserList(await getAllOtherUsersThatAreNotFriends())
+      const newList = userList.filter((user) => user.id !== friendId)
+      setUserList(newList)
       setLoading(false)
     }
   }
@@ -60,7 +64,8 @@ const SendFriendRequest = () => {
       <PartialInfoTopPanel />
       {error && !loading && <div>{error}</div>}
       {loading && <LoadingSpinner />}
-      {userList && !loading &&
+      {userList && userList.length === 0 && <p>No users left to send a request to!</p>}
+      {userList && userList.length > 0 && !loading &&
         <>
           <input
             className="nameSearch"
@@ -69,7 +74,7 @@ const SendFriendRequest = () => {
             name="name"
             type="text"
             placeholder="Type username here..." />
-          {displayedUsers && <DisplayUsers
+          {displayedUsers && displayedUsers.length > 0 && <DisplayUsers
             dropdown={[
               { title: 'View Profile', href: `/profile` },
               { title: 'Send Friend Request', action: updateList }
